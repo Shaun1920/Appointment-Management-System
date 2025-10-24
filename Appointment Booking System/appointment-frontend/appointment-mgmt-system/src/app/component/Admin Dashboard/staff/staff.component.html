@@ -1,0 +1,63 @@
+<div class="staff-container">
+  <h2 class="title">Staff List</h2>
+
+  <!-- Add Staff Button -->
+  <button class="add-btn" (click)="openForm()">+ Add Staff</button>
+
+  <!-- Popup Form -->
+  <div *ngIf="showForm">
+    <div class="form-overlay" (click)="closeForm()"></div>
+    <div class="form-popup">
+      <h3>Add Staff</h3>
+      <form (ngSubmit)="addStaff()" class="staff-form">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="newStaff.name" name="name" required />
+
+        <label>Contact Number</label>
+        <input type="text" [(ngModel)]="newStaff.contactNo" name="contactNo" required />
+
+        <label>Role</label>
+        <input type="text" [(ngModel)]="newStaff.role" name="role" required />
+
+        <div class="form-actions">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" (click)="closeForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Responsive Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Staff ID</th>
+          <th>Name</th>
+          <th>Contact No</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let staff of staffList; let i = index">
+          <td>{{ staff.staffId }}</td>
+          <td>{{ staff.name }}</td>
+          <td>{{ staff.contactNo }}</td>
+          <td>{{ staff.role }}</td>
+          <td>
+            <span class="status" [class.approved]="staff.status === 'Activated'"
+                                [class.rejected]="staff.status === 'Deactivated'">
+              {{ staff.status }}
+            </span>
+          </td>
+          <td class="action-buttons">
+            <button class="approve-btn" (click)="approveStaff(staff)" [disabled]="staff.status === 'Activated'">Activated</button>
+            <button class="reject-btn" (click)="rejectStaff(staff)" [disabled]="staff.status === 'Deactivated'">Deactivated</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

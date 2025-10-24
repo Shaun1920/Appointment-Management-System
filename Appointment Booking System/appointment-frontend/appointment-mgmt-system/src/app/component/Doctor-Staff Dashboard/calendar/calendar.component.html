@@ -1,0 +1,24 @@
+<div class="calendar-container">
+  <div class="header">
+    <button (click)="prevMonth()">&#8592;</button>
+    <h2>{{ currentDate | date: 'MMMM yyyy' }}</h2>
+    <button (click)="nextMonth()">&#8594;</button>
+  </div>
+
+  <div class="days-header">
+    <div *ngFor="let d of ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']">{{ d }}</div>
+  </div>
+
+  <div class="days-grid">
+    <div *ngFor="let day of daysInMonth" class="day" [class.empty]="isInvalidDate(day)">
+      <ng-container *ngIf="!isInvalidDate(day)">
+        <div class="date">{{ day.getDate() }}</div>
+        <div class="appointments">
+          <div *ngFor="let app of getAppointments(day)" class="appointment">
+            {{ app.title }}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

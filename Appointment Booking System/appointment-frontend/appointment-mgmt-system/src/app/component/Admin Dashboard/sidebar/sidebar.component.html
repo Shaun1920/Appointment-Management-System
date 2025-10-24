@@ -1,0 +1,17 @@
+<div class="dashboard-header">
+  <h2>Dashboard</h2>
+  <button class="menu-toggle" (click)="toggleSidebar()">☰ Menu</button>
+</div>
+
+<div class="main-container">
+  <div class="sidebar" [class.active]="sidebarOpen">
+    <ul>
+      <li><a routerLink="/doctors" routerLinkActive="active">Doctors</a></li>
+      <li><a routerLink="/staff" routerLinkActive="active">Staff</a></li>
+      <li><a routerLink="/view-status" routerLinkActive="active">View Status</a></li>
+    </ul>
+  </div>
+
+  <!-- Overlay when sidebar is open -->
+  <div *ngIf="sidebarOpen" class="overlay" (click)="closeSidebar()"></div>
+</div>
