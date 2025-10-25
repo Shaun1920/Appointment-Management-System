@@ -1,10 +1,7 @@
 <div class="staff-container">
   <h2 class="title">Staff List</h2>
-
-  <!-- Add Staff Button -->
   <button class="add-btn" (click)="openForm()">+ Add Staff</button>
 
-  <!-- Popup Form -->
   <div *ngIf="showForm">
     <div class="form-overlay" (click)="closeForm()"></div>
     <div class="form-popup">
@@ -12,6 +9,9 @@
       <form (ngSubmit)="addStaff()" class="staff-form">
         <label>Name</label>
         <input type="text" [(ngModel)]="newStaff.name" name="name" required />
+
+        <label>Date of Birth</label>
+        <input type="date" [(ngModel)]="newStaff.dateOfBirth" name="dateOfBirth" required />
 
         <label>Contact Number</label>
         <input type="text" [(ngModel)]="newStaff.contactNo" name="contactNo" required />
@@ -27,34 +27,34 @@
     </div>
   </div>
 
-  <!-- Responsive Table -->
   <div class="table-container">
     <table>
       <thead>
         <tr>
           <th>Staff ID</th>
           <th>Name</th>
-          <th>Contact No</th>
+          <th>DOB</th>
+          <th>Contact</th>
           <th>Role</th>
+          <th>Password</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let staff of staffList; let i = index">
-          <td>{{ staff.staffId }}</td>
+        <tr *ngFor="let staff of staffList">
+          <td>{{ staff.staffCode }}</td>
           <td>{{ staff.name }}</td>
+          <td>{{ staff.dateOfBirth }}</td>
           <td>{{ staff.contactNo }}</td>
           <td>{{ staff.role }}</td>
+          <td>{{ staff.password }}</td>
           <td>
-            <span class="status" [class.approved]="staff.status === 'Activated'"
-                                [class.rejected]="staff.status === 'Deactivated'">
-              {{ staff.status }}
-            </span>
+            <span class="status" [class.approved]="staff.status === 'Activated'" [class.rejected]="staff.status === 'Deactivated'">{{ staff.status }}</span>
           </td>
-          <td class="action-buttons">
-            <button class="approve-btn" (click)="approveStaff(staff)" [disabled]="staff.status === 'Activated'">Activated</button>
-            <button class="reject-btn" (click)="rejectStaff(staff)" [disabled]="staff.status === 'Deactivated'">Deactivated</button>
+          <td>
+            <button class="approve-btn" (click)="approveStaff(staff)" [disabled]="staff.status === 'Activated'">Activate</button>
+            <button class="reject-btn" (click)="rejectStaff(staff)" [disabled]="staff.status === 'Deactivated'">Deactivate</button>
           </td>
         </tr>
       </tbody>

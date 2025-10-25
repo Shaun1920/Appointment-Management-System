@@ -1,22 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Doctor } from '../../model/Admin-Doctor Model/doctor.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Doctor {
+  doctorId?: number;
+  doctorCode?: string;
+  doctorName: string;
+  specialization: string;
+  contactNo: string;
+  role: string;
+  dateOfBirth: string;
+  password?: string;
+  status?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-  private doctors: Doctor[] = [];
+  private apiUrl = 'http://localhost:8080/api/doctors';
 
-  getDoctors(): Doctor[] {
-    return this.doctors;
+  constructor(private http: HttpClient) {}
+
+  getDoctors(): Observable<Doctor[]> {
+    return this.http.get<Doctor[]>(`${this.apiUrl}/all`);
   }
 
-  addDoctor(newDoctor: Doctor) {
-    this.doctors.push(newDoctor);
+  addDoctor(doctor: Doctor): Observable<Doctor> {
+    return this.http.post<Doctor>(`${this.apiUrl}/add`, doctor);
   }
 
-  updateStatus(doctorId: string, status: string) {
-    const doc = this.doctors.find(d => d.doctorId === doctorId);
-    if (doc) doc.status = status;
+  updateStatus(id: number, status: string): Observable<Doctor> {
+    return this.http.put<Doctor>(`${this.apiUrl}/update-status/${id}?status=${status}`, {});
   }
 }

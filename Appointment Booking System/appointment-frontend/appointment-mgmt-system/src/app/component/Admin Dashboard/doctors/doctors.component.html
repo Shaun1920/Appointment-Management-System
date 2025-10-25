@@ -1,10 +1,7 @@
 <div class="doctors-container">
   <h2 class="title">Doctors List</h2>
-
-  <!-- Add Doctor Button -->
   <button class="add-btn" (click)="openForm()">+ Add Doctor</button>
 
-  <!-- Add Doctor Modal -->
   <div *ngIf="showForm">
     <div class="form-overlay" (click)="closeForm()"></div>
     <div class="form-popup">
@@ -12,6 +9,9 @@
       <form (ngSubmit)="addDoctor()" class="doctor-form">
         <label>Doctor Name</label>
         <input type="text" [(ngModel)]="newDoctor.doctorName" name="doctorName" required />
+
+        <label>Date of Birth</label>
+        <input type="date" [(ngModel)]="newDoctor.dateOfBirth" name="dateOfBirth" required />
 
         <label>Specialization</label>
         <input type="text" [(ngModel)]="newDoctor.specialization" name="specialization" required />
@@ -30,36 +30,36 @@
     </div>
   </div>
 
-  <!-- Responsive Table -->
   <div class="table-container">
     <table>
       <thead>
         <tr>
           <th>Doctor ID</th>
           <th>Name</th>
+          <th>DOB</th>
           <th>Specialization</th>
-          <th>Contact No</th>
+          <th>Contact</th>
           <th>Role</th>
+          <th>Password</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let doc of doctors; let i = index">
-          <td>{{ doc.doctorId }}</td>
-          <td>{{ doc.doctorName }}</td>
-          <td>{{ doc.specialization }}</td>
-          <td>{{ doc.contactNo }}</td>
-          <td>{{ doc.role }}</td>
+        <tr *ngFor="let doctor of doctors">
+          <td>{{ doctor.doctorCode }}</td>
+          <td>{{ doctor.doctorName }}</td>
+          <td>{{ doctor.dateOfBirth }}</td>
+          <td>{{ doctor.specialization }}</td>
+          <td>{{ doctor.contactNo }}</td>
+          <td>{{ doctor.role }}</td>
+          <td>{{ doctor.password }}</td>
           <td>
-            <span class="status" [class.approved]="doc.status === 'Activated'"
-                                [class.rejected]="doc.status === 'Deactivated'">
-              {{ doc.status }}
-            </span>
+            <span class="status" [class.approved]="doctor.status === 'Activated'" [class.rejected]="doctor.status === 'Deactivated'">{{ doctor.status }}</span>
           </td>
-          <td class="action-buttons">
-            <button class="approve-btn" (click)="approveDoctor(doc)" [disabled]="doc.status === 'Activated'">Activated</button>
-            <button class="reject-btn" (click)="rejectDoctor(doc)" [disabled]="doc.status === 'Deactivated'">Deactivated</button>
+          <td>
+            <button class="approve-btn" (click)="approveDoctor(doctor)" [disabled]="doctor.status === 'Activated'">Activate</button>
+            <button class="reject-btn" (click)="rejectDoctor(doctor)" [disabled]="doctor.status === 'Deactivated'">Deactivate</button>
           </td>
         </tr>
       </tbody>

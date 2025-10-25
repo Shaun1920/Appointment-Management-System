@@ -1,23 +1,35 @@
-
 import { Injectable } from '@angular/core';
-import { Staff } from '../../model/Admin-Staff Model/staff.model';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Staff {
+  staffId?: number;
+  staffCode?: string;
+  name: string;
+  contactNo: string;
+  role: string;
+  dateOfBirth: string;
+  password?: string;
+  status?: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class StaffService {
-  private staffList: Staff[] = [];
+  private apiUrl = 'http://localhost:8080/api/staff';
 
-  getStaff(): Staff[] {
-    return this.staffList;
+  constructor(private http: HttpClient) {}
+
+  getStaff(): Observable<Staff[]> {
+    return this.http.get<Staff[]>(`${this.apiUrl}/all`);
   }
 
-  addStaff(newStaff: Staff) {
-    this.staffList.push(newStaff);
+  addStaff(staff: Staff): Observable<Staff> {
+    return this.http.post<Staff>(`${this.apiUrl}/add`, staff);
   }
 
-  updateStatus(staffId: string, status: string) {
-    const staff = this.staffList.find(s => s.staffId === staffId);
-    if (staff) staff.status = status;
+  updateStatus(id: number, status: string): Observable<Staff> {
+    return this.http.put<Staff>(`${this.apiUrl}/update-status/${id}?status=${status}`, {});
   }
 }

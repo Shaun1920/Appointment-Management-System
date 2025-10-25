@@ -1,14 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Staff {
-  staffId: string;
-  name: string;
-  contactNo: string;
-  role: string;
-  status: string;
-}
+// import { Staff, StaffService } from '../services/staff.service';
+import { StaffService,Staff } from 'src/app/service/Admin-Staff Service/staff.service';
 
 @Component({
   selector: 'app-staff',
@@ -17,42 +11,45 @@ interface Staff {
   templateUrl: './staff.component.html',
   styleUrls: ['./staff.component.css']
 })
-export class StaffComponent {
+export class StaffComponent implements OnInit {
   staffList: Staff[] = [];
   showForm = false;
+  newStaff: Staff = { name: '', contactNo: '', role: '', dateOfBirth: '' };
 
-  newStaff = {
-    name: '',
-    contactNo: '',
-    role: ''
-  };
+  constructor(private staffService: StaffService) {}
 
-  openForm() {
-    this.showForm = true;
+  ngOnInit() {
+    this.loadStaff();
   }
 
+  loadStaff() {
+    this.staffService.getStaff().subscribe(data => this.staffList = data);
+  }
+
+  openForm() { this.showForm = true; }
   closeForm() {
     this.showForm = false;
-    this.newStaff = { name: '', contactNo: '', role: '' };
+    this.newStaff = { name: '', contactNo: '', role: '', dateOfBirth: '' };
   }
 
   addStaff() {
-    const id = 'staff' + String(this.staffList.length + 1).padStart(3, '0');
-    this.staffList.push({
-      staffId: id,
-      name: this.newStaff.name,
-      contactNo: this.newStaff.contactNo,
-      role: this.newStaff.role,
-      status: 'Pending'
+    const contactPattern = /^[789]\d{9}$/;
+    if (!contactPattern.test(this.newStaff.contactNo)) {
+      alert('Contact number must be 10 digits and start with 7, 8, or 9.');
+      return;
+    }
+
+    this.staffService.addStaff(this.newStaff).subscribe(() => {
+      this.loadStaff();
+      this.closeForm();
     });
-    this.closeForm();
   }
 
   approveStaff(staff: Staff) {
-    staff.status = 'Activated';
+    this.staffService.updateStatus(staff.staffId!, 'Activated').subscribe(() => this.loadStaff());
   }
 
   rejectStaff(staff: Staff) {
-    staff.status = 'Deactivated';
+    this.staffService.updateStatus(staff.staffId!, 'Deactivated').subscribe(() => this.loadStaff());
   }
 }

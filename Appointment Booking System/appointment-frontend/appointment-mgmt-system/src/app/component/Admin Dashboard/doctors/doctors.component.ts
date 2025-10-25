@@ -1,61 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // ✅ Add this
-
-interface Doctor {
-  doctorId: string;
-  doctorName: string;
-  specialization: string;
-  contactNo: string;
-  role: string;
-  status: string;
-}
+import { FormsModule } from '@angular/forms';
+// import { Doctor, DoctorService } from '../services/doctor.service';
+import { DoctorService,Doctor } from 'src/app/service/Admin-Doctor Service/doctor.service';
 
 @Component({
   selector: 'app-doctors',
   standalone: true,
-  imports: [CommonModule, FormsModule], // ✅ Include FormsModule here
- templateUrl: './doctors.component.html',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './doctors.component.html',
   styleUrls: ['./doctors.component.css']
 })
-export class DoctorsComponent {
+export class DoctorsComponent implements OnInit {
   doctors: Doctor[] = [];
   showForm = false;
+  newDoctor: Doctor = { doctorName: '', specialization: '', contactNo: '', role: '', dateOfBirth: '' };
 
-  newDoctor = {
-    doctorName: '',
-    specialization: '',
-    contactNo: '',
-    role: ''
-  };
+  constructor(private doctorService: DoctorService) {}
 
-  openForm() {
-    this.showForm = true;
+  ngOnInit() {
+    this.loadDoctors();
   }
 
+  loadDoctors() {
+    this.doctorService.getDoctors().subscribe(data => this.doctors = data);
+  }
+
+  openForm() { this.showForm = true; }
   closeForm() {
     this.showForm = false;
-    this.newDoctor = { doctorName: '', specialization: '', contactNo: '', role: '' };
+    this.newDoctor = { doctorName: '', specialization: '', contactNo: '', role: '', dateOfBirth: '' };
   }
 
   addDoctor() {
-    const id = 'doc' + String(this.doctors.length + 1).padStart(3, '0');
-    this.doctors.push({
-      doctorId: id,
-      doctorName: this.newDoctor.doctorName,
-      specialization: this.newDoctor.specialization,
-      contactNo: this.newDoctor.contactNo,
-      role: this.newDoctor.role,
-      status: 'Pending'
+    const contactPattern = /^[789]\d{9}$/;
+    if (!contactPattern.test(this.newDoctor.contactNo)) {
+      alert('Contact number must be 10 digits and start with 7, 8, or 9.');
+      return;
+    }
+
+    this.doctorService.addDoctor(this.newDoctor).subscribe(() => {
+      this.loadDoctors();
+      this.closeForm();
     });
-    this.closeForm();
   }
 
-  approveDoctor(doc: Doctor) {
-    doc.status = 'Activated';
+  approveDoctor(doctor: Doctor) {
+    this.doctorService.updateStatus(doctor.doctorId!, 'Activated').subscribe(() => this.loadDoctors());
   }
 
-  rejectDoctor(doc: Doctor) {
-    doc.status = 'Deactivated';
+  rejectDoctor(doctor: Doctor) {
+    this.doctorService.updateStatus(doctor.doctorId!, 'Deactivated').subscribe(() => this.loadDoctors());
   }
 }

@@ -1,3 +1,4 @@
+// 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -7,15 +8,27 @@ import { DoctorsComponent } from './component/Admin Dashboard/doctors/doctors.co
 import { StaffComponent } from './component/Admin Dashboard/staff/staff.component';
 import { ViewStatusComponent } from './component/Admin Dashboard/view-status/view-status.component';
 import { CalendarComponent } from './component/Doctor-Staff Dashboard/calendar/calendar.component';
+// import { authGuard } from './guard/auth.guard';
+import { authGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },      // login as default
-  { path: 'doctors', component: DoctorsComponent },
-  { path: 'staff', component: StaffComponent },
-  { path: 'view-status', component: ViewStatusComponent },
-  { path: 'calendar', component: CalendarComponent }, // ✅ calendar route
-  { path: '**', redirectTo: '' }                // fallback to login
+  { path: '', redirectTo: 'Access-Point/Appointment-Booking-System/auth-admin/login', pathMatch: 'full' },
+  { path: 'Access-Point/Appointment-Booking-System/auth-admin/login', component: LoginComponent },
+
+  {
+    path: 'admin',
+    canActivate: [authGuard],
+    children: [
+      { path: 'doctors', component: DoctorsComponent },
+      { path: 'staff', component: StaffComponent },
+      { path: 'view-status', component: ViewStatusComponent },
+    ]
+  },
+
+  { path: 'calendar', component: CalendarComponent },
+  { path: '**', redirectTo: 'login' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

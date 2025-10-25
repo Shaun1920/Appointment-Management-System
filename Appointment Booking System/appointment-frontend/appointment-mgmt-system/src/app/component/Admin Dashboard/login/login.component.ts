@@ -7,13 +7,13 @@ import { AdminService } from 'src/app/service/Admin-Login Service/admin.service'
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule], // ✅ Make sure both are here
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  adminId = '';
-  password = '';
+  adminId: string = '';
+  password: string = '';
 
   constructor(private adminService: AdminService, private router: Router) {}
 
@@ -24,13 +24,20 @@ export class LoginComponent {
     }
 
     const admin = { adminId: this.adminId, password: this.password };
+
     this.adminService.login(admin).subscribe({
-      next: () => {
-        alert('Login successful!');
-        this.router.navigate(['/doctors']);
+      next: (response) => {
+        if (response.message === 'Login successful') {
+          sessionStorage.setItem('adminLoggedIn', 'true');
+          sessionStorage.setItem('adminId', response.adminId);
+          alert('Login successful!');
+          this.router.navigate(['/admin/doctors']);
+        } else {
+          alert('Invalid Admin ID or Password');
+        }
       },
       error: () => {
-        alert('Invalid Admin ID or Password');
+        alert('Server error occurred');
       }
     });
   }
