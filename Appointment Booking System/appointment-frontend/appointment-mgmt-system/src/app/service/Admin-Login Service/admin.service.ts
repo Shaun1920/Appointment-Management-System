@@ -10,4 +10,5 @@ export class AdminService {
   login(admin: Admin): Observable<any> {
     return this.http.post('http://localhost:8080/api/admin/login', admin);
   }
+  
 }

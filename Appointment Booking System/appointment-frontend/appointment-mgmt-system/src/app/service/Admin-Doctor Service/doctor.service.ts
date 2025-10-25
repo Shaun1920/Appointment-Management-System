@@ -33,4 +33,5 @@ export class DoctorService {
   updateStatus(id: number, status: string): Observable<Doctor> {
     return this.http.put<Doctor>(`${this.apiUrl}/update-status/${id}?status=${status}`, {});
   }
+  
 }

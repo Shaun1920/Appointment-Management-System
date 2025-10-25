@@ -24,6 +24,6 @@ export class SidebarComponent {
 
   logout() {
     sessionStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['Access-Point/Appointment-Booking-System/auth-admin/login']);
   }
 }

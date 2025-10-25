@@ -13,7 +13,6 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    // Create default admin on startup
     @PostConstruct
     public void initAdmin() {
         if (adminRepository.findByAdminId("admin123").isEmpty()) {
@@ -24,7 +23,23 @@ public class AdminService {
     }
 
     public boolean login(String adminId, String password) {
-        Optional<Admin> admin = adminRepository.findByAdminIdAndPassword(adminId, password);
-        return admin.isPresent();
+        return adminRepository.findByAdminIdAndPassword(adminId, password).isPresent();
+    }
+
+    // Fetch admin profile
+    public Optional<Admin> getProfile(String adminId) {
+        return adminRepository.findByAdminId(adminId);
+    }
+
+    // Update admin profile
+    public Admin updateProfile(String originalAdminId, String newAdminId, String newPassword) {
+        Optional<Admin> adminOpt = adminRepository.findByAdminId(originalAdminId);
+        if (adminOpt.isPresent()) {
+            Admin admin = adminOpt.get();
+            admin.setAdminId(newAdminId);
+            admin.setPassword(newPassword);
+            return adminRepository.save(admin);
+        }
+        throw new RuntimeException("Admin not found");
     }
 }

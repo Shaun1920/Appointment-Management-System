@@ -10,6 +10,7 @@ import { ViewStatusComponent } from './component/Admin Dashboard/view-status/vie
 import { CalendarComponent } from './component/Doctor-Staff Dashboard/calendar/calendar.component';
 // import { authGuard } from './guard/auth.guard';
 import { authGuard } from './auth.guard';
+import { ProfileadminComponent } from './component/Admin Dashboard/profileadmin/profileadmin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'Access-Point/Appointment-Booking-System/auth-admin/login', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'doctors', component: DoctorsComponent },
       { path: 'staff', component: StaffComponent },
       { path: 'view-status', component: ViewStatusComponent },
+       { path: 'profile', component: ProfileadminComponent, canActivate: [authGuard] },
     ]
   },
 

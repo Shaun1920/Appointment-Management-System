@@ -1,4 +1,5 @@
 package com.appointment.bookingsystem.controller;
+import com.appointment.bookingsystem.entity.Admin;
 
 import com.appointment.bookingsystem.services.AdminService;
 import jakarta.servlet.http.HttpSession;
@@ -6,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
@@ -41,5 +41,23 @@ public class AdminController {
     public Map<String, String> logout(HttpSession session) {
         session.invalidate();
         return Map.of("message", "Logged out successfully");
+    }
+
+    // ✅ Fetch profile by adminId
+    @GetMapping("/profile/{adminId}")
+    public Admin getProfile(@PathVariable String adminId) {
+        return adminService.getProfile(adminId)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+    }
+
+    // ✅ Update profile
+    @PutMapping("/profile/update/{originalAdminId}")
+    public Admin updateProfile(
+            @PathVariable String originalAdminId,
+            @RequestBody Map<String, String> request
+    ) {
+        String newAdminId = request.get("adminId");
+        String newPassword = request.get("password");
+        return adminService.updateProfile(originalAdminId, newAdminId, newPassword);
     }
 }

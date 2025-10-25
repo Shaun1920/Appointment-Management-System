@@ -14,6 +14,8 @@ import { LoginComponent } from './component/Admin Dashboard/login/login.componen
 import { AppRoutingModule } from './app-routing.module';
 import { DoctorStaffSidebarComponent } from './component/Doctor-Staff Dashboard/doctor-staff-sidebar/doctor-staff-sidebar.component';
 import { CalendarComponent } from './component/Doctor-Staff Dashboard/calendar/calendar.component';
+// import { ProfileadminComponent } from './profileadmin/profileadmin.component';
+import { ProfileadminComponent } from './component/Admin Dashboard/profileadmin/profileadmin.component';
 
 @NgModule({
   imports: [
@@ -24,13 +26,15 @@ import { CalendarComponent } from './component/Doctor-Staff Dashboard/calendar/c
     AppRoutingModule,
 
     // Standalone components imported
+     ProfileadminComponent,
     SidebarComponent,
     DoctorsComponent,
     StaffComponent,
     ViewStatusComponent,
     LoginComponent,
     DoctorStaffSidebarComponent,
-    CalendarComponent
+    CalendarComponent,
+   
   ],
   providers: [],
   // Do NOT declare AppComponent if it is standalone

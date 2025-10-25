@@ -6,7 +6,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const isLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true'; // ✅ same key as login
 
   if (!isLoggedIn) {
-    router.navigate(['/login']);
+    router.navigate(['/Access-Point/Appointment-Booking-System/auth-admin/login']);
     return false;
   }
 
