@@ -16,6 +16,7 @@ import { DoctorStaffSidebarComponent } from './component/Doctor-Staff Dashboard/
 import { CalendarComponent } from './component/Doctor-Staff Dashboard/calendar/calendar.component';
 // import { ProfileadminComponent } from './profileadmin/profileadmin.component';
 import { ProfileadminComponent } from './component/Admin Dashboard/profileadmin/profileadmin.component';
+import { AllocationComponent } from './component/Admin Dashboard/allocation/allocation.component';
 
 @NgModule({
   imports: [
@@ -34,12 +35,15 @@ import { ProfileadminComponent } from './component/Admin Dashboard/profileadmin/
     LoginComponent,
     DoctorStaffSidebarComponent,
     CalendarComponent,
+    AllocationComponent,
    
   ],
   providers: [],
   // Do NOT declare AppComponent if it is standalone
   bootstrap: [],
   declarations: [
+  
+    
   ]  // Leave empty if AppComponent is standalone
 })
 export class AppModule {}

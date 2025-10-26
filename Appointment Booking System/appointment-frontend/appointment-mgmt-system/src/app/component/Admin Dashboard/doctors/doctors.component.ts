@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // import { Doctor, DoctorService } from '../services/doctor.service';
-import { DoctorService,Doctor } from 'src/app/service/Admin-Doctor Service/doctor.service';
+import { DoctorService,Doctor } from 'src/app/service/Admin Service/Admin-Doctor Service/doctor.service';
 
 @Component({
   selector: 'app-doctors',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ProfileadminService } from '../../../service/profileadmin.service';
-import { Profileadmin } from '../../../model/profileadmin.model';
+import { ProfileadminService } from '../../../service/Admin Service/Admin-Profile Service/profileadmin.service';
+import { Profileadmin } from '../../../model/Admin Model/Admin-Profile Model/profileadmin.model';
 
 @Component({
   selector: 'app-profileadmin',

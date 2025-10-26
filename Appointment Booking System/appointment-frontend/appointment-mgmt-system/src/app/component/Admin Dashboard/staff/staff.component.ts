@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 // import { Staff, StaffService } from '../services/staff.service';
-import { StaffService,Staff } from 'src/app/service/Admin-Staff Service/staff.service';
+import { StaffService,Staff } from 'src/app/service/Admin Service/Admin-Staff Service/staff.service';
 
 @Component({
   selector: 'app-staff',

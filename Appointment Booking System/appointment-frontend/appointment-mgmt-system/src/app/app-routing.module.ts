@@ -11,9 +11,10 @@ import { CalendarComponent } from './component/Doctor-Staff Dashboard/calendar/c
 // import { authGuard } from './guard/auth.guard';
 import { authGuard } from './auth.guard';
 import { ProfileadminComponent } from './component/Admin Dashboard/profileadmin/profileadmin.component';
+import { AllocationComponent } from './component/Admin Dashboard/allocation/allocation.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'Access-Point/Appointment-Booking-System/auth-admin/login', pathMatch: 'full' },
+  //{ path: '', redirectTo: 'Access-Point/Appointment-Booking-System/auth-admin/login', pathMatch: 'full' },
   { path: 'Access-Point/Appointment-Booking-System/auth-admin/login', component: LoginComponent },
 
   {
@@ -24,6 +25,8 @@ const routes: Routes = [
       { path: 'staff', component: StaffComponent },
       { path: 'view-status', component: ViewStatusComponent },
        { path: 'profile', component: ProfileadminComponent, canActivate: [authGuard] },
+       { path: 'allocation', component: AllocationComponent }
+
     ]
   },
 
