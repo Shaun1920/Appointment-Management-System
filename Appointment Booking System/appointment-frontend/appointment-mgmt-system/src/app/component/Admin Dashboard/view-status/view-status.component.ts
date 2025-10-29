@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { StatusService } from 'src/app/service/status.service'; // ✅ make sure this exists or update the path
 
 interface ViewStatus {
   doctorId: string;
@@ -16,10 +17,33 @@ interface ViewStatus {
   templateUrl: './view-status.component.html',
   styleUrls: ['./view-status.component.css']
 })
-export class ViewStatusComponent {
-  viewStatusList: ViewStatus[] = [
-    { doctorId: 'DOC001', currentStatus: 'Available', accountStatus: 'Active', upcomingLeave: '22 Oct 2025', appointmentsToday: 5 },
-    { doctorId: 'DOC002', currentStatus: 'Busy', accountStatus: 'Active', upcomingLeave: 'N/A', appointmentsToday: 8 },
-    { doctorId: 'DOC003', currentStatus: 'On Leave', accountStatus: 'Inactive', upcomingLeave: 'Till 25 Oct 2025', appointmentsToday: 0 }
-  ];
+export class ViewStatusComponent implements OnInit {
+  viewStatusList: ViewStatus[] = [];
+
+  constructor(private statusService: StatusService) {}
+
+  ngOnInit(): void {
+    this.loadStatuses();
+  }
+
+  loadStatuses(): void {
+    this.statusService.getAllStatuses().subscribe({
+      next: (list: any[]) => {
+        this.viewStatusList = (list || []).map(ds => {
+          const inactive = (ds.accountStatus || '').toLowerCase() === 'inactive';
+          return {
+            doctorId: ds.doctorCode || ds.doctorId || '--',
+            currentStatus: inactive ? '--' : (ds.currentStatus || 'Available'),
+            accountStatus: ds.accountStatus || 'Inactive',
+            upcomingLeave: ds.upcomingLeave || 'N/A',
+            appointmentsToday: ds.appointmentsToday ?? 0
+          };
+        });
+      },
+      error: (err) => {
+        console.error('Failed to load doctor statuses', err);
+        this.viewStatusList = [];
+      }
+    });
+  }
 }

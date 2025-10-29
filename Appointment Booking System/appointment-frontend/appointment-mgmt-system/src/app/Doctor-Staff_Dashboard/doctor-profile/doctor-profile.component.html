@@ -1,0 +1,104 @@
+<div class="profile-container" *ngIf="doctor">
+  <div class="avatar">
+    <img src="https://cdn-icons-png.flaticon.com/512/387/387561.png" alt="Doctor Avatar">
+  </div>
+  <!-- 🌟 Account & Availability Panel
+<div class="account-panel" *ngIf="doctor">
+  <div class="panel-row">
+    <div class="panel-item">
+      <label>Account Status</label>
+      <div
+        class="status-pill"
+        [ngClass]="{ active: accountStatus === 'Active', inactive: accountStatus === 'Inactive' }"
+      >
+        {{ accountStatus }}
+      </div>
+    </div>
+
+    <div class="panel-item">
+      <label>Current Status</label>
+      <div class="inline">
+        <select [(ngModel)]="availability">
+          <option *ngFor="let s of availabilityOptions" [value]="s">{{ s }}</option>
+        </select>
+        <button class="mini-btn" (click)="updateAvailability()">Update</button>
+      </div>
+    </div>
+
+    <div class="panel-item">
+      <label>Shift</label>
+      <span *ngIf="!loadingAllocations">{{ latestShift || '—' }}</span>
+      <span *ngIf="loadingAllocations">Loading...</span>
+    </div>
+
+    <div class="panel-item">
+      <label>Room No.</label>
+      <span *ngIf="!loadingAllocations">{{ latestRoom || '—' }}</span>
+      <span *ngIf="loadingAllocations">Loading...</span>
+    </div>
+  </div>
+</div> -->
+  <h2>Doctor Profile</h2>
+
+  <div class="action-buttons">
+    <button class="edit-btn" (click)="toggleEdit()">
+      {{ editingProfile ? 'Cancel Editing' : 'Edit Profile' }}
+    </button>
+
+    <button *ngIf="editingProfile" class="save-btn" (click)="updateProfile()">Save Changes</button>
+  </div>
+
+  <div class="profile-field">
+    <label>Doctor ID:</label>
+    <input type="text" [value]="doctor.doctorCode" disabled>
+  </div>
+
+  <div class="profile-field">
+    <label>Name:</label>
+    <input type="text" [(ngModel)]="doctor.doctorName" [disabled]="!editingProfile">
+  </div>
+
+  <div class="profile-field">
+    <label>Specialization:</label>
+    <input type="text" [(ngModel)]="doctor.specialization" [disabled]="!editingProfile">
+  </div>
+
+  <div class="profile-field">
+    <label>Role:</label>
+    <input type="text" [(ngModel)]="doctor.role" [disabled]="!editingProfile">
+  </div>
+
+  <div class="profile-field">
+    <label>Contact Number:</label>
+    <input type="text" [(ngModel)]="doctor.contactNo" [disabled]="!editingProfile">
+  </div>
+
+  <hr>
+
+  <div class="password-section">
+    <button class="change-pass-btn" (click)="togglePasswordChange()">
+      {{ editingPassword ? 'Cancel Password Change' : 'Update Password' }}
+    </button>
+
+    <div *ngIf="editingPassword" class="password-fields">
+      <div class="profile-field">
+        <label>Old Password:</label>
+        <input type="password" [(ngModel)]="oldPassword">
+      </div>
+
+      <div class="profile-field">
+        <label>New Password:</label>
+        <input type="password" [(ngModel)]="newPassword">
+      </div>
+
+      <div class="profile-field">
+        <label>Confirm Password:</label>
+        <input type="password" [(ngModel)]="confirmPassword">
+      </div>
+
+      <button class="update-btn" (click)="updatePassword()">Confirm Update</button>
+    </div>
+  </div>
+
+  
+</div>

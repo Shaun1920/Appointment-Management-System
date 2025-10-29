@@ -4,7 +4,7 @@
   padding: 2rem;
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
@@ -66,8 +66,15 @@
   font-weight: 600;
 }
 
+/* 👇 Added muted color for inactive accounts */
+.status-muted {
+  color: #6b7280; /* gray-500 */
+  font-weight: 600;
+}
+
 @media (max-width: 768px) {
-  .status-table th, .status-table td {
+  .status-table th,
+  .status-table td {
     padding: 10px;
     font-size: 0.9rem;
   }

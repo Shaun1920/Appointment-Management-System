@@ -1,34 +1,37 @@
 <div class="status-container">
-<h2>View Status</h2>
+  <h2>Doctor Status Overview</h2>
 
-<div class="table-container">
-<table class="status-table">
-<thead>
-<tr>
-<th>Doctor ID</th>
-<th>Current Status</th>
- <th>Account Status</th>
- <th>Upcoming Leave</th>
- <th>Appointments Today</th>
- </tr>
- </thead>
- <tbody>
-<tr *ngFor="let status of viewStatusList">
-<td>{{ status.doctorId }}</td>
- <td>
-<span [ngClass]="{
- 'status-available': status.currentStatus === 'Available',
- 'status-busy': status.currentStatus === 'Busy',
- 'status-leave': status.currentStatus === 'On Leave'
- }">
- {{ status.currentStatus }}
- </span>
-</td>
-<td>{{ status.accountStatus }}</td>
- <td>{{ status.upcomingLeave }}</td>
- <td>{{ status.appointmentsToday }}</td>
- </tr>
- </tbody>
-</table>
- </div>
+  <div class="table-container">
+    <table class="status-table">
+      <thead>
+        <tr>
+          <th>Doctor ID</th>
+          <th>Current Status</th>
+          <th>Account Status</th>
+          <th>Upcoming Leave</th>
+          <th>Appointments Today</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let status of viewStatusList">
+          <td>{{ status.doctorId }}</td>
+          <td>
+            <span
+              [ngClass]="{
+                'status-muted': status.currentStatus === '--',
+                'status-available': status.currentStatus === 'Available',
+                'status-busy': status.currentStatus === 'Busy',
+                'status-leave': status.currentStatus === 'On Leave'
+              }"
+            >
+              {{ status.currentStatus }}
+            </span>
+          </td>
+          <td>{{ status.accountStatus }}</td>
+          <td>{{ status.upcomingLeave }}</td>
+          <td>{{ status.appointmentsToday }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -4,6 +4,7 @@ import com.appointment.bookingsystem.entity.Doctor;
 import com.appointment.bookingsystem.repository.DoctorRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DoctorService {
@@ -39,5 +40,14 @@ public class DoctorService {
             return doctorRepository.save(doctor);
         }
         return null;
+    }
+    
+ // com.appointment.bookingsystem.services.DoctorService.java
+    public Optional<Doctor> getDoctorByCode(String doctorCode) {
+        return doctorRepository.findByDoctorCode(doctorCode);
+    }
+    
+    public Doctor updateDoctor(Doctor doctor) {
+        return doctorRepository.save(doctor);
     }
 }
