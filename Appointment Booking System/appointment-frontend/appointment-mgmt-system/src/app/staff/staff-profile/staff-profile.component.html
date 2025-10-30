@@ -1,0 +1,67 @@
+<div class="profile-container" *ngIf="staff">
+  <div class="avatar">
+    <img src="https://cdn-icons-png.flaticon.com/512/921/921056.png" alt="Staff Avatar" />
+  </div>
+
+  <h2>Staff Profile</h2>
+
+  <div class="action-buttons">
+    <button class="edit-btn" (click)="toggleEdit()">
+      {{ editingProfile ? 'Cancel Editing' : 'Edit Profile' }}
+    </button>
+
+    <button *ngIf="editingProfile" class="save-btn" (click)="updateProfile()">Save Changes</button>
+  </div>
+
+  <div class="profile-field">
+    <label>Staff ID:</label>
+    <input type="text" [value]="staff.staffCode" disabled />
+  </div>
+
+  <div class="profile-field">
+    <label>Name:</label>
+    <input type="text" [(ngModel)]="staff.name" [disabled]="!editingProfile" />
+  </div>
+
+  <div class="profile-field">
+    <label>Role:</label>
+    <input type="text" [(ngModel)]="staff.role" [disabled]="!editingProfile" />
+  </div>
+
+  <div class="profile-field">
+    <label>Contact Number:</label>
+    <input type="text" [(ngModel)]="staff.contactNo" [disabled]="!editingProfile" />
+  </div>
+
+  <div class="profile-field">
+    <label>Date of Birth:</label>
+    <input type="text" [(ngModel)]="staff.dateOfBirth" [disabled]="!editingProfile" />
+  </div>
+
+  <hr />
+
+  <div class="password-section">
+    <button class="change-pass-btn" (click)="togglePasswordChange()">
+      {{ editingPassword ? 'Cancel' : 'Update Password' }}
+    </button>
+
+    <div *ngIf="editingPassword" class="password-fields">
+      <div class="profile-field">
+        <label>Old Password:</label>
+        <input type="password" [(ngModel)]="oldPassword" />
+      </div>
+
+      <div class="profile-field">
+        <label>New Password:</label>
+        <input type="password" [(ngModel)]="newPassword" />
+      </div>
+
+      <div class="profile-field">
+        <label>Confirm Password:</label>
+        <input type="password" [(ngModel)]="confirmPassword" />
+      </div>
+
+      <button class="update-btn" (click)="updatePassword()">Confirm Update</button>
+    </div>
+  </div>
+</div>

@@ -26,6 +26,16 @@ public class StaffController {
         return staffService.getAllStaff();
     }
 
+    @GetMapping("/{staffCode}")
+    public Staff getByStaffCode(@PathVariable String staffCode) {
+        return staffService.getByStaffCode(staffCode);
+    }
+
+    @PutMapping("/update")
+    public Staff updateStaff(@RequestBody Staff staff) {
+        return staffService.updateStaff(staff);
+    }
+
     @PutMapping("/update-status/{id}")
     public Staff updateStatus(@PathVariable Long id, @RequestParam String status) {
         return staffService.updateStatus(id, status);

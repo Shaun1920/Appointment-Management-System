@@ -1,0 +1,82 @@
+<div class="appointment-container">
+  <h2>Appointment Management</h2>
+  <button class="create-btn" (click)="openModal()">+ Create Appointment</button>
+
+  <!-- Modal -->
+  <div class="modal" [class.show]="showModal">
+    <div class="modal-content">
+      <h3>{{ editIndex !== undefined ? 'Edit Appointment' : 'Create Appointment' }}</h3>
+
+      <form (ngSubmit)="saveAppointment()" class="form-row">
+        <div class="form-group">
+          <label>Patient ID:</label>
+          <input type="text" [(ngModel)]="appointment.patientId" name="patientId" required />
+        </div>
+
+        <div class="form-group">
+          <label>Doctor ID:</label>
+          <input type="text" [(ngModel)]="appointment.doctorId" name="doctorId" required />
+        </div>
+
+        <div class="form-group">
+          <label>Doctor Name:</label>
+          <input type="text" [(ngModel)]="appointment.doctorName" name="doctorName" required />
+        </div>
+
+        <div class="form-group">
+          <label>Description:</label>
+          <input type="text" [(ngModel)]="appointment.description" name="description" />
+        </div>
+
+        <div class="form-group">
+          <label>Time:</label>
+          <input type="time" [(ngModel)]="appointment.time" name="time" required />
+        </div>
+
+        <div class="form-group">
+          <label>Slot:</label>
+          <input type="text" [(ngModel)]="appointment.slot" name="slot" required />
+        </div>
+
+        <div class="form-group">
+          <label>Type:</label>
+          <select [(ngModel)]="appointment.type" name="type" required>
+            <option value="normal">Normal</option>
+            <option value="followup">Follow-up</option>
+            <option value="emergency">Emergency</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <hr class="divider" />
+
+  <!-- Cards Section -->
+  <div class="cards-section">
+    <h3>All Appointments</h3>
+    <div class="card-container">
+      <div class="card" *ngFor="let a of appointments; let i = index">
+        <div class="card-content">
+          <h4>Appointment ID: {{ a.appointmentId }}</h4>
+          <p><strong>Patient ID:</strong> {{ a.patientId }}</p>
+          <p><strong>Doctor:</strong> {{ a.doctorName }} ({{ a.doctorId }})</p>
+          <p><strong>Description:</strong> {{ a.description }}</p>
+          <p><strong>Time:</strong> {{ a.time }} | <strong>Slot:</strong> {{ a.slot }}</p>
+          <p><strong>Type:</strong> {{ a.type }}</p>
+          <p class="timestamp">📅 {{ a.timestamp | date: 'medium' }}</p>
+        </div>
+        <div class="card-actions">
+          <button class="edit-btn" (click)="editAppointment(i)">Edit</button>
+          <button class="delete-btn" (click)="deleteAppointment(i)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

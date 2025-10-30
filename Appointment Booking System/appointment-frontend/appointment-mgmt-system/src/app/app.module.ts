@@ -12,18 +12,22 @@ import { LoginComponent } from './component/Admin Dashboard/login/login.componen
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
-import { DoctorStaffSidebarComponent } from './component/Doctor-Staff Dashboard/doctor-staff-sidebar/doctor-staff-sidebar.component';
-import { CalendarComponent } from './component/Doctor-Staff Dashboard/calendar/calendar.component';
+// import { DoctorStaffSidebarComponent } from './component/Doctor-Staff Dashboard/doctor-staff-sidebar/doctor-staff-sidebar.component';
+import { CalendarComponent } from './Doctor-Staff_Dashboard/calendar/calendar.component';
 // import { ProfileadminComponent } from './profileadmin/profileadmin.component';
 import { ProfileadminComponent } from './component/Admin Dashboard/profileadmin/profileadmin.component';
 import { AllocationComponent } from './component/Admin Dashboard/allocation/allocation.component';
 import { DoctorDashboardComponent } from './Doctor-Staff_Dashboard/doctor/doctor-dashboard/doctor-dashboard.component';
-import { DoctorLoginComponent } from './Doctor-Staff_Dashboard/doctor-login/doctor-login.component';
-import { DoctorProfileComponent } from './Doctor-Staff_Dashboard/doctor-profile/doctor-profile.component';
+import { DoctorLoginComponent } from './Doctor-Staff_Dashboard/doctor/doctor-login/doctor-login.component';
+import { DoctorProfileComponent } from './Doctor-Staff_Dashboard/doctor/doctor-profile/doctor-profile.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 // import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthInterceptor } from './auth-interceptor';
-
+import { StaffDashboardComponent } from './staff/staff-dashboard/staff-dashboard.component';
+import { StaffProfileComponent } from './staff/staff-profile/staff-profile.component';
+// import { PatientRegistrationComponent } from './staff/patient-registration/patient-registration.component';
+import { PatientRegistrationComponent } from './staff/patient-registration/patient-registration.component';
+import { AppointmentFormComponent } from './staff/appointment-form/appointment-form.component';
 
 @NgModule({
   imports: [
@@ -40,14 +44,19 @@ import { AuthInterceptor } from './auth-interceptor';
     StaffComponent,
     ViewStatusComponent,
     LoginComponent,
-    DoctorStaffSidebarComponent,
     CalendarComponent,
     AllocationComponent,
    
     //doctor
     DoctorDashboardComponent,
     DoctorLoginComponent,
-    DoctorProfileComponent
+    DoctorProfileComponent,
+
+    //staff
+    StaffDashboardComponent,
+     StaffProfileComponent,
+       PatientRegistrationComponent,
+           AppointmentFormComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -55,6 +64,11 @@ import { AuthInterceptor } from './auth-interceptor';
 
   // Do NOT declare AppComponent if it is standalone
   bootstrap: [],
-  declarations: []  // Leave empty if AppComponent is standalone
+  declarations: [
+   
+  
+  
+
+  ]  // Leave empty if AppComponent is standalone
 })
 export class AppModule {}

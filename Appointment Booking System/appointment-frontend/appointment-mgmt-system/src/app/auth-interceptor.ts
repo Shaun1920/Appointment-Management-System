@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 // import { DoctorAuthService } from '../services/doctor-auth.service';
-import { DoctorAuthService } from './service/doctor-auth-service.service';
+import { DoctorAuthService } from './service/Doctor Service/doctor-auth-service.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {

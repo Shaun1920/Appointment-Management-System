@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StatusService } from 'src/app/service/status.service'; // ✅ make sure this exists or update the path
+import { StatusService } from 'src/app/service/Doctor Service/status.service'; // ✅ make sure this exists or update the path
 
 interface ViewStatus {
   doctorId: string;

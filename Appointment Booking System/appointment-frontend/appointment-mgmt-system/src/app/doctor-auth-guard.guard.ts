@@ -1,11 +1,13 @@
-// import { CanActivateFn, Router } from '@angular/router';
+// // src/app/doctor-auth-guard.guard.ts
 // import { inject } from '@angular/core';
+// import { CanActivateFn, Router } from '@angular/router';
+// import { DoctorAuthService } from './service/Doctor Service/doctor-auth-service.service';
 
-// export const doctorAuthGuard: CanActivateFn = () => {
+// export const doctorAuthGuard: CanActivateFn = (route, state) => {
+//   const auth = inject(DoctorAuthService);
 //   const router = inject(Router);
-//   const doctorId = localStorage.getItem('doctorId');
 
-//   if (doctorId) {
+//   if (auth.isLoggedIn()) {
 //     return true;
 //   } else {
 //     router.navigate(['/doctor-login']);
@@ -16,17 +18,14 @@
 // src/app/doctor-auth-guard.guard.ts
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-// import { DoctorAuthService } from './services/doctor-auth.service';
-import { DoctorAuthService } from './service/doctor-auth-service.service';
+import { DoctorAuthService } from './service/Doctor Service/doctor-auth-service.service';
 
-export const doctorAuthGuard: CanActivateFn = (route, state) => {
+export const doctorAuthGuard: CanActivateFn = () => {
   const auth = inject(DoctorAuthService);
   const router = inject(Router);
 
-  if (auth.isLoggedIn()) {
-    return true;
-  } else {
-    router.navigate(['/doctor-login']);
-    return false;
-  }
+  if (auth.isLoggedIn() && auth.hasRole('doctor')) return true;
+
+  router.navigate(['/doctor-login']);
+  return false;
 };

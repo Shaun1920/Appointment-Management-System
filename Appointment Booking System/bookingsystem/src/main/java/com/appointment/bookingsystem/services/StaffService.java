@@ -18,10 +18,8 @@ public class StaffService {
         staff.setStatus("Pending");
         staff.setPassword(staff.getName() + "@" + staff.getDateOfBirth());
 
-        // Save first to generate DB ID
         Staff savedStaff = staffRepository.save(staff);
 
-        // Generate custom staffCode like staff_001
         String code = "staff_" + String.format("%03d", savedStaff.getStaffId());
         savedStaff.setStaffCode(code);
 
@@ -39,5 +37,13 @@ public class StaffService {
             return staffRepository.save(staff);
         }
         return null;
+    }
+
+    public Staff getByStaffCode(String staffCode) {
+        return staffRepository.findByStaffCode(staffCode).orElse(null);
+    }
+
+    public Staff updateStaff(Staff staff) {
+        return staffRepository.save(staff);
     }
 }

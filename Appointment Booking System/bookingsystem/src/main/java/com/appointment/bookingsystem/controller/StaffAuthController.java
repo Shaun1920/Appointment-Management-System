@@ -1,44 +1,46 @@
+//// com.appointment.bookingsystem.controller.StaffAuthController
 //package com.appointment.bookingsystem.controller;
 //
-//import com.appointment.bookingsystem.entity.Doctor;
-//import com.appointment.bookingsystem.repository.DoctorRepository;
+//import com.appointment.bookingsystem.entity.Staff;
+//import com.appointment.bookingsystem.repository.StaffRepository;
 //import org.springframework.http.ResponseEntity;
 //import org.springframework.web.bind.annotation.*;
 //
 //import java.util.Map;
 //
-
 //@CrossOrigin(origins = "*")
 //@RestController
-//@RequestMapping("/api/auth/doctor")
-//public class DoctorAuthController {
+//@RequestMapping("/api/auth/staff")
+//public class StaffAuthController {
 //
-//    private final DoctorRepository repo;
-//    public DoctorAuthController(DoctorRepository repo) { this.repo = repo; }
+//    private final StaffRepository repo;
+//    public StaffAuthController(StaffRepository repo) { this.repo = repo; }
 //
-//    public record LoginRequest(String doctorCode, String password) {}
+//    public record LoginRequest(String staffCode, String password) {}
 //
 //    @PostMapping("/login")
 //    public ResponseEntity<?> login(@RequestBody LoginRequest req) {
-//        // Bypass rule: doctorCode == "doc"
-//        if ("doc".equalsIgnoreCase(req.doctorCode())) {
+//        // Optional bypass similar to doctor, keep or remove:
+//        if ("staff".equalsIgnoreCase(req.staffCode())) {
 //            return ResponseEntity.ok(Map.of(
 //                "allowed", true,
 //                "reason", "bypass",
-//                "doctorCode", req.doctorCode(),
-//                "doctorName", "Doctor"
+//                "role", "staff",
+//                "staffCode", req.staffCode(),
+//                "staffName", "Staff"
 //            ));
 //        }
 //
-//        return repo.findByDoctorCodeAndPassword(req.doctorCode(), req.password())
-//            .map(d -> {
-//                if ("Activated".equalsIgnoreCase(d.getStatus())) {
+//        return repo.findByStaffCodeAndPassword(req.staffCode(), req.password())
+//            .map(s -> {
+//                if ("Activated".equalsIgnoreCase(s.getStatus())) {
 //                    return ResponseEntity.ok(Map.of(
 //                        "allowed", true,
 //                        "reason", "activated",
-//                        "doctorId", d.getDoctorId(),
-//                        "doctorCode", d.getDoctorCode(),
-//                        "doctorName", d.getDoctorName()
+//                        "role", "staff",
+//                        "staffId", s.getStaffId(),
+//                        "staffCode", s.getStaffCode(),
+//                        "staffName", s.getName()
 //                    ));
 //                } else {
 //                    return ResponseEntity.status(403).body(Map.of(
@@ -51,56 +53,55 @@
 //            .orElseGet(() -> ResponseEntity.status(401).body(Map.of(
 //                "allowed", false,
 //                "reason", "invalid_credentials",
-//                "message", "Invalid Doctor Code or Password."
+//                "message", "Invalid Code or Password."
 //            )));
 //    }
 //}
 
-
 package com.appointment.bookingsystem.controller;
 
-import com.appointment.bookingsystem.entity.Doctor;
-import com.appointment.bookingsystem.repository.DoctorRepository;
+import com.appointment.bookingsystem.entity.Staff;
+import com.appointment.bookingsystem.repository.StaffRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/auth/doctor")
-public class DoctorAuthController {
+@RequestMapping("/api/auth/staff")
+public class StaffAuthController {
 
-    private final DoctorRepository repo;
+    private final StaffRepository repo;
 
-    public DoctorAuthController(DoctorRepository repo) {
+    public StaffAuthController(StaffRepository repo) {
         this.repo = repo;
     }
 
-    public record LoginRequest(String doctorCode, String password) {}
+    public record LoginRequest(String staffCode, String password) {}
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
         // Optional bypass
-        if ("doc".equalsIgnoreCase(req.doctorCode())) {
+        if ("staff".equalsIgnoreCase(req.staffCode())) {
             return ResponseEntity.ok(Map.of(
                     "allowed", true,
                     "reason", "bypass",
-                    "role", "doctor",
-                    "doctorCode", req.doctorCode(),
-                    "doctorName", "Doctor"
+                    "role", "staff",
+                    "staffCode", req.staffCode(),
+                    "staffName", "Staff"
             ));
         }
 
-        return repo.findByDoctorCodeAndPassword(req.doctorCode(), req.password())
-                .map(d -> {
-                    if ("Activated".equalsIgnoreCase(d.getStatus())) {
+        return repo.findByStaffCodeAndPassword(req.staffCode(), req.password())
+                .map(s -> {
+                    if ("Activated".equalsIgnoreCase(s.getStatus())) {
                         return ResponseEntity.ok(Map.of(
                                 "allowed", true,
                                 "reason", "activated",
-                                "role", "doctor",
-                                "doctorId", d.getDoctorId(),
-                                "doctorCode", d.getDoctorCode(),
-                                "doctorName", d.getDoctorName()
+                                "role", "staff",
+                                "staffId", s.getStaffId(),
+                                "staffCode", s.getStaffCode(),
+                                "staffName", s.getName()
                         ));
                     } else {
                         return ResponseEntity.status(403).body(Map.of(
@@ -113,7 +114,7 @@ public class DoctorAuthController {
                 .orElseGet(() -> ResponseEntity.status(401).body(Map.of(
                         "allowed", false,
                         "reason", "invalid_credentials",
-                        "message", "Invalid Doctor Code or Password."
+                        "message", "Invalid Code or Password."
                 )));
     }
 }
