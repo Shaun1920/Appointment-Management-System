@@ -1,31 +1,50 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Appointment } from '../model/Appointment.model';
+
+export interface Appointment {
+  id?: number;
+  appointmentId?: string;
+  patientId: string;
+  doctorId: string;
+  doctorName: string;
+  description: string;
+  time: string;
+  slot: string;
+  type: string;
+  timestamp?: string | Date;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService {
+  private apiUrl = 'http://localhost:8080/api/appointments';
 
-  APIURL = "http://localhost:8080/api/appointments";
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  get() : Observable<any>{
-    return this.http.get(this.APIURL);
+  // 🔹 Get all appointments
+  getAllAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(this.apiUrl);
   }
 
-  save(appointment: Appointment) : Observable<any> {
-    return this.http.post(this.APIURL, appointment);
+  // 🔹 Create a new appointment
+  createAppointment(a: Appointment): Observable<Appointment> {
+    return this.http.post<Appointment>(this.apiUrl, a);
   }
 
-  update(id : any,appointment: any) : Observable<any> {
-    return this.http.put(`${this.APIURL}/${id}`, appointment);
+  // 🔹 Update appointment
+  updateAppointment(id: number, a: Appointment): Observable<Appointment> {
+    return this.http.put<Appointment>(`${this.apiUrl}/${id}`, a);
   }
 
-  delete(id: any) : Observable<any> {
-    return this.http.delete(`${this.APIURL}/${id}`)
+  // 🔹 Delete appointment
+  deleteAppointment(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
+  // 🔹 Get single appointment by ID (optional)
+  getAppointmentById(id: number): Observable<Appointment> {
+    return this.http.get<Appointment>(`${this.apiUrl}/${id}`);
+  }
 }

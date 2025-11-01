@@ -8,13 +8,12 @@
     </div>
   </header>
 
-  <!-- No account/availability panel for staff -->
-
   <aside class="sidebar" [class.open]="sidebarOpen">
     <div class="sidebar-inner">
       <button class="close-btn" (click)="toggleSidebar()">✕</button>
       <nav class="sidebar-menu">
         <button (click)="viewAppointments()">Appointments</button>
+        <button (click)="viewDoctorStatus()">View Doctor Status</button>
         <button (click)="viewTrack()">Track Appointment</button>
         <button (click)="viewRegistration()">Patient Registration</button>
         <button (click)="viewProfile()">Profile</button>
@@ -26,53 +25,29 @@
   <main class="content" [class.shifted]="sidebarOpen">
     <section class="today">
       <!-- Appointments -->
-      <div class="content" *ngIf="currentView === 'appointments'">
- <app-appointment-form></app-appointment-form>
+      <div *ngIf="currentView === 'appointments'">
+        <app-appointment-form></app-appointment-form>
+      </div>
+
+      <!-- Doctor Status -->
+      <div *ngIf="currentView === 'doctorStatus'">
+        <app-doctor-status></app-doctor-status>
       </div>
 
       <!-- Track Appointment -->
-      <div class="content" *ngIf="currentView === 'track'">
-        <h2>Track Appointment</h2>
-        <div class="track-box">
-          <input type="text" [(ngModel)]="trackId" placeholder="Enter Appointment ID or Patient ID" />
-          <button (click)="trackAppointment()">Track</button>
-        </div>
-
-        <div *ngIf="trackError" class="alert">{{ trackError }}</div>
-
-        <div *ngIf="trackedAppointment" class="track-card">
-          <div class="row">
-            <div><b>Patient:</b> {{ trackedAppointment.patientName }}</div>
-            <div><b>Patient ID:</b> {{ trackedAppointment.patientId }}</div>
-          </div>
-          <div class="row">
-            <div><b>Appt. Date:</b> {{ formatDate(trackedAppointment.dateTime) }}</div>
-            <div><b>Status:</b> <span class="status" [ngClass]="statusClass(trackedAppointment.status)">{{ trackedAppointment.status }}</span></div>
-          </div>
-          <div class="timeline">
-            <div class="dot" [class.done]="isPast(trackedAppointment.dateTime)"></div>
-            <span>Scheduled</span>
-            <div class="bar"></div>
-            <div class="dot" [class.done]="trackedAppointment.status === 'Checked In' || trackedAppointment.status === 'Completed'"></div>
-            <span>Checked In</span>
-            <div class="bar"></div>
-            <div class="dot" [class.done]="trackedAppointment.status === 'Completed'"></div>
-            <span>Completed</span>
-          </div>
-        </div>
+      <div *ngIf="currentView === 'track'">
+        <app-appointment-tracker></app-appointment-tracker>
       </div>
 
-      <!-- User Registration -->
-      <div class="content" *ngIf="currentView === 'registration'">
+      <!-- Patient Registration -->
+      <div *ngIf="currentView === 'registration'">
         <app-patient-registration></app-patient-registration>
       </div>
 
       <!-- Profile -->
-       <div class="content" *ngIf="currentView === 'profile'">
+      <div *ngIf="currentView === 'profile'">
         <app-staff-profile></app-staff-profile>
-      </div> 
-      
-
+      </div>
     </section>
   </main>
 </div>

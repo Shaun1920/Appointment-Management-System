@@ -5,6 +5,9 @@ import { Router, RouterOutlet } from '@angular/router';
 import { StaffProfileComponent } from "../staff-profile/staff-profile.component";
 import { PatientRegistrationComponent } from "../patient-registration/patient-registration.component";
 import { AppointmentFormComponent } from "src/app/staff/appointment-form/appointment-form.component";
+import { AppointmentTrackerComponent } from "../track/track.component";
+// import { DoctorStatusComponent } from "src/app/doctor-status/doctor-status.component";
+import { DoctorStatusComponent } from '../doctor-status/doctor-status.component';
 
 interface Appointment {
   id: string;
@@ -27,53 +30,50 @@ interface NewUser {
 @Component({
   selector: 'app-staff-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, StaffProfileComponent, RouterOutlet, PatientRegistrationComponent, AppointmentFormComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    StaffProfileComponent,
+    RouterOutlet,
+    PatientRegistrationComponent,
+    AppointmentFormComponent,
+    AppointmentTrackerComponent,
+    DoctorStatusComponent
+  ],
   templateUrl: './staff-dashboard.component.html',
   styleUrls: ['./staff-dashboard.component.css']
 })
 export class StaffDashboardComponent implements OnInit {
 
-  // Sidebar & Navigation
   sidebarOpen = false;
-  currentView: 'appointments' | 'track' | 'registration' | 'profile' = 'appointments';
-
-  // Staff Details
+  currentView: 'appointments' | 'doctorStatus' | 'track' | 'registration' | 'profile' = 'appointments';
   staffName: string = '';
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // ✅ Fetch logged-in staff details from localStorage
     const sessionData = localStorage.getItem('userSession');
     if (sessionData) {
       const staff = JSON.parse(sessionData);
       this.staffName = staff.staffName || 'Staff';
     } else {
-      this.router.navigate(['/staff-login']); // Redirect if no session found
+      this.router.navigate(['/staff-login']);
     }
   }
 
-  // Sidebar Toggle
   toggleSidebar() { this.sidebarOpen = !this.sidebarOpen; }
 
-  // Navigation
   viewAppointments() { this.currentView = 'appointments'; this.sidebarOpen = false; }
+  viewDoctorStatus() { this.currentView = 'doctorStatus'; this.sidebarOpen = false; }
   viewTrack() { this.currentView = 'track'; this.sidebarOpen = false; }
-viewRegistration() {
-  this.currentView = 'registration';
-  this.sidebarOpen = false;
-}
-
-
+  viewRegistration() { this.currentView = 'registration'; this.sidebarOpen = false; }
   viewProfile() { this.currentView = 'profile'; this.sidebarOpen = false; }
 
-  // ✅ Logout
   logout() {
     localStorage.clear();
     this.router.navigate(['/doctor-login']);
   }
 
-  // ----------- Appointment Demo Logic -----------
   appointments: Appointment[] = [
     { id: 'APT-1001', patientId: 'P-001', patientName: 'Riya Sen', dateTime: new Date(), description: 'General checkup', status: 'Pending' },
     { id: 'APT-1002', patientId: 'P-002', patientName: 'Arjun Mehta', dateTime: new Date(Date.now() + 3600_000), description: 'Follow-up', status: 'Checked In' },
@@ -85,10 +85,6 @@ viewRegistration() {
   formatDate(d: string | Date): string {
     const dt = new Date(d);
     return dt.toLocaleString();
-  }
-
-  isPast(d: string | Date): boolean {
-    return new Date(d).getTime() < Date.now();
   }
 
   filteredAppointments(): Appointment[] {
@@ -121,7 +117,7 @@ viewRegistration() {
     }[status];
   }
 
-  // ----------- Track Appointment Logic -----------
+  // -------- Track Appointment Logic --------
   trackId = '';
   trackedAppointment: Appointment | null = null;
   trackError = '';
@@ -136,7 +132,7 @@ viewRegistration() {
     this.trackedAppointment = found;
   }
 
-  // ----------- User Registration Logic -----------
+  // -------- Registration Logic --------
   newUser: NewUser = { fullName: '', phone: '', email: '', dob: '', gender: '', address: '' };
   registrationMessage = '';
 

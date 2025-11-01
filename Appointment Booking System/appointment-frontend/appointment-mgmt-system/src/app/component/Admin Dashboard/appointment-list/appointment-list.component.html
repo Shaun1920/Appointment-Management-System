@@ -1,0 +1,42 @@
+<div class="admin-container">
+  <h2>📋 All Appointments</h2>
+  <hr />
+
+  <div *ngIf="loading" class="loading">Loading appointments...</div>
+
+  <table *ngIf="!loading && appointments.length > 0" class="appointment-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Appointment ID</th>
+        <th>Description</th>
+        <th>Doctor ID</th>
+        <th>Doctor Name</th>
+        <th>Patient ID</th>
+        <th>Slot</th>
+        <th>Time</th>
+        <th>Timestamp</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let appt of appointments">
+        <td>{{ appt.id }}</td>
+        <td>{{ appt.appointmentId }}</td>
+        <td>{{ appt.description }}</td>
+        <td>{{ appt.doctorId }}</td>
+        <td>{{ appt.doctorName }}</td>
+        <td>{{ appt.patientId }}</td>
+        <td>{{ appt.slot }}</td>
+        <td>{{ appt.time }}</td>
+        <td>{{ appt.timestamp  }}</td>
+        <td>{{ appt.type }}</td>
+
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && appointments.length === 0" class="no-data">
+    No appointments found.
+  </div>
+</div>

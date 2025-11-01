@@ -1,0 +1,78 @@
+<div class="page">
+  <header class="head">
+    <h1>Appointments Tracker</h1>
+    <p class="sub">Live queue overview for today’s patients</p>
+  </header>
+
+  <section class="grid">
+    <article class="card" *ngFor="let it of items">
+      <div class="card-head">
+        <span class="tag">#{{ it.id }}</span>
+        <div class="who">
+          <div class="name">{{ it.patientName }}</div>
+          <div class="meta">Patient ID: {{ it.patientId }} • {{ it.doctorName }}</div>
+        </div>
+        <span class="pill" [class.done]="it.stage === 'DONE'">{{ it.stage }}</span>
+      </div>
+
+      <div class="bar"><div class="fill" [style.width.%]="progress(it)"></div></div>
+
+      <div class="steps">
+        <button
+          *ngFor="let s of stages; let i = index"
+          type="button"
+          class="step"
+          [class.active]="isActive(it.stage, s)"
+          (click)="setStage(it, s)"
+          [attr.aria-label]="'Set stage ' + s">
+          <span class="dot">{{ i + 1 }}</span>
+          <span class="label">
+            {{ s === 'CREATED' ? 'Created' : s === 'VISITED' ? 'Visited' : s === 'PAID' ? 'Payment' : 'Done' }}
+          </span>
+        </button>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="ghost" (click)="nextStage(it)" [disabled]="it.stage === 'DONE'">Move to next</button>
+        <button type="button" class="danger" [disabled]="it.stage !== 'CREATED'">Cancel</button>
+        <button type="button" class="primary" [disabled]="it.stage !== 'PAID'">Mark as Done</button>
+      </div>
+    </article>
+  </section>
+</div>
+
+<!-- 
+<div class="page">
+  <header class="head">
+    <h1>Appointments Tracker</h1>
+    <p class="sub">Live queue overview for today’s patients</p>
+  </header>
+
+  <ng-container *ngIf="loading">Loading…</ng-container>
+  <div class="error" *ngIf="error">{{ error }}</div>
+
+  <section class="grid" *ngIf="!loading && !error">
+    <article class="card" *ngFor="let it of (items$ | async) ?? []">
+      <div class="card-head">
+        <span class="tag">#{{ it.id }}</span>
+        <div class="who">
+          <div class="name">{{ it.patientName }}</div>
+          <div class="meta">Patient ID: {{ it.patientId }} • {{ it.doctorName }}</div>
+        </div>
+        <span class="pill" [class.done]="it.stage === 'DONE'">{{ it.stage }}</span>
+      </div>
+
+      <div class="bar"><div class="fill" [style.width.%]="progress(it)"></div></div>
+
+      <div class="steps">
+        <div class="step" *ngFor="let s of stages; let i = index" [class.active]="isActive(it.stage, s)">
+          <span class="dot">{{ i + 1 }}</span>
+          <span class="label">
+            {{ s === 'CREATED' ? 'Created' : s === 'VISITED' ? 'Visited' : s === 'PAID' ? 'Payment' : 'Done' }}
+          </span>
+        </div>
+      </div>
+      buttons removed (read-only) -->
+    <!-- </article>
+  </section>
+</div> -->

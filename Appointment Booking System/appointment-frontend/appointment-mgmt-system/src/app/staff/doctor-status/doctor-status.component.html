@@ -1,0 +1,37 @@
+<div class="doctor-status-container">
+  <h2>Doctor Slot Status</h2>
+
+  <div *ngIf="loading" class="loading">Loading doctor status...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="!loading && !error && groupedDoctorStatus.length === 0" class="empty">
+    No doctor status found.
+  </div>
+
+  <div *ngIf="groupedDoctorStatus.length > 0" class="status-table-container">
+    <table class="status-table">
+      <thead>
+        <tr>
+          <th>Doctor Name</th>
+          <th>ID</th>
+          <th>Slot 1</th>
+          <th>Slot 2</th>
+          <th>Slot 3</th>
+          <th>Slot 4</th>
+          <th>Slot 5</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doctor of groupedDoctorStatus">
+          <td>{{ doctor.doctorName }}</td>
+          <td>{{ doctor.doctorId }}</td>
+          <td>{{ doctor.slot1 }}</td>
+          <td>{{ doctor.slot2 }}</td>
+          <td>{{ doctor.slot3 }}</td>
+          <td>{{ doctor.slot4 }}</td>
+          <td>{{ doctor.slot5 }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

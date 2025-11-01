@@ -50,7 +50,7 @@
 // export class AppRoutingModule {}
 
 
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 // Admin components
@@ -77,6 +77,8 @@ import { DoctorProfileComponent } from './Doctor-Staff_Dashboard/doctor/doctor-p
 // import { StaffDashboardComponent } from './staff-dashboard/staff-dashboard.component';
 import { StaffDashboardComponent } from './staff/staff-dashboard/staff-dashboard.component';
 import { staffAuthGuard } from './staff-auth-guard.guard';
+// import { AppointmentListComponent } from './component/appointment-list/appointment-list.component';
+import { AppointmentListComponent } from './component/Admin Dashboard/appointment-list/appointment-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'Access-Point/Appointment-Booking-System/auth-admin/login', pathMatch: 'full' },
@@ -92,6 +94,7 @@ const routes: Routes = [
       { path: 'view-status', component: ViewStatusComponent },
       { path: 'profile', component: ProfileadminComponent },
       { path: 'allocation', component: AllocationComponent },
+      {path: 'appointments',component: AppointmentListComponent},
     ]
   },
 

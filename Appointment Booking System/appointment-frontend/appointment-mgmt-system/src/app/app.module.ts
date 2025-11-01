@@ -28,6 +28,8 @@ import { StaffProfileComponent } from './staff/staff-profile/staff-profile.compo
 // import { PatientRegistrationComponent } from './staff/patient-registration/patient-registration.component';
 import { PatientRegistrationComponent } from './staff/patient-registration/patient-registration.component';
 import { AppointmentFormComponent } from './staff/appointment-form/appointment-form.component';
+import { AppointmentListComponent } from './component/appointment-list/appointment-list.component';
+import { DoctorStatusComponent } from './doctor-status/doctor-status.component';
 
 @NgModule({
   imports: [
@@ -56,7 +58,8 @@ import { AppointmentFormComponent } from './staff/appointment-form/appointment-f
     StaffDashboardComponent,
      StaffProfileComponent,
        PatientRegistrationComponent,
-           AppointmentFormComponent,
+           AppointmentFormComponent,     
+           AppointmentListComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -69,6 +72,10 @@ import { AppointmentFormComponent } from './staff/appointment-form/appointment-f
   
   
 
+  
+    
+  
+    DoctorStatusComponent
   ]  // Leave empty if AppComponent is standalone
 })
 export class AppModule {}

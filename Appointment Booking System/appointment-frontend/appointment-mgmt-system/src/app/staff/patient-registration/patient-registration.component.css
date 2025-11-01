@@ -1,0 +1,108 @@
+/* Center the main container */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px 40px;
+}
+
+/* Heading style */
+h2 {
+  text-align: center;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* Form appearance */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Label styling */
+label {
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+/* Input and select box */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 10px 12px;
+  font-size: 15px;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+}
+
+/* Register button */
+button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+/* Success and error alerts */
+.alert {
+  text-align: center;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 500;
+}
+
+/* Optional – Match your screenshots' card layout for All Patients section */
+.patient-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-top: 20px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.patient-card h4 {
+  color: #007bff;
+  font-weight: 600;
+}
+
+.patient-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.patient-card button {
+  margin-right: 10px;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.patient-card .edit-btn {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.patient-card .delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+}

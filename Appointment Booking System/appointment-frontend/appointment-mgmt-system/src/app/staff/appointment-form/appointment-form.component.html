@@ -2,40 +2,86 @@
   <h2>Appointment Management</h2>
   <button class="create-btn" (click)="openModal()">+ Create Appointment</button>
 
+  <!-- ✅ Message Section -->
+  <div
+    *ngIf="message"
+    [class.success]="messageType === 'success'"
+    [class.error]="messageType === 'error'"
+    class="message-box"
+  >
+    {{ message }}
+  </div>
+
   <!-- Modal -->
   <div class="modal" [class.show]="showModal">
     <div class="modal-content">
-      <h3>{{ editIndex !== undefined ? 'Edit Appointment' : 'Create Appointment' }}</h3>
+      <h3>{{ editingId ? 'Edit Appointment' : 'Create Appointment' }}</h3>
 
       <form (ngSubmit)="saveAppointment()" class="form-row">
         <div class="form-group">
           <label>Patient ID:</label>
-          <input type="text" [(ngModel)]="appointment.patientId" name="patientId" required />
+          <input
+            type="text"
+            [(ngModel)]="appointment.patientId"
+            name="patientId"
+            required
+          />
         </div>
 
+        <!-- ✅ Doctor Dropdown -->
         <div class="form-group">
-          <label>Doctor ID:</label>
-          <input type="text" [(ngModel)]="appointment.doctorId" name="doctorId" required />
+          <label>Doctor:</label>
+          <select
+            [(ngModel)]="appointment.doctorId"
+            name="doctorId"
+            required
+            (change)="appointment.doctorName = getDoctorName(appointment.doctorId)"
+          >
+            <option value="" disabled selected>Select Doctor</option>
+            <option *ngFor="let d of doctors" [value]="d.doctorCode">
+              {{ d.doctorCode }} — {{ d.currentStatus }}
+            </option>
+          </select>
         </div>
 
+        <!-- Doctor Name (auto-filled / readonly) -->
         <div class="form-group">
           <label>Doctor Name:</label>
-          <input type="text" [(ngModel)]="appointment.doctorName" name="doctorName" required />
+          <input
+            type="text"
+            [(ngModel)]="appointment.doctorName"
+            name="doctorName"
+            readonly
+          />
         </div>
 
         <div class="form-group">
           <label>Description:</label>
-          <input type="text" [(ngModel)]="appointment.description" name="description" />
+          <input
+            type="text"
+            [(ngModel)]="appointment.description"
+            name="description"
+          />
         </div>
 
         <div class="form-group">
           <label>Time:</label>
-          <input type="time" [(ngModel)]="appointment.time" name="time" required />
+          <input
+            type="time"
+            [(ngModel)]="appointment.time"
+            name="time"
+            required
+          />
         </div>
 
         <div class="form-group">
           <label>Slot:</label>
-          <input type="text" [(ngModel)]="appointment.slot" name="slot" required />
+          <input
+            type="text"
+            [(ngModel)]="appointment.slot"
+            name="slot"
+            required
+          />
         </div>
 
         <div class="form-group">
@@ -48,14 +94,17 @@
         </div>
 
         <div class="modal-actions">
-          <button type="submit" class="save-btn">Save</button>
-          <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="save-btn">
+            {{ editingId ? 'Update' : 'Save' }}
+          </button>
+          <button type="button" class="cancel-btn" (click)="closeModal()">
+            Cancel
+          </button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Divider -->
   <hr class="divider" />
 
   <!-- Cards Section -->
@@ -68,13 +117,18 @@
           <p><strong>Patient ID:</strong> {{ a.patientId }}</p>
           <p><strong>Doctor:</strong> {{ a.doctorName }} ({{ a.doctorId }})</p>
           <p><strong>Description:</strong> {{ a.description }}</p>
-          <p><strong>Time:</strong> {{ a.time }} | <strong>Slot:</strong> {{ a.slot }}</p>
+          <p>
+            <strong>Time:</strong> {{ a.time }} |
+            <strong>Slot:</strong> {{ a.slot }}
+          </p>
           <p><strong>Type:</strong> {{ a.type }}</p>
           <p class="timestamp">📅 {{ a.timestamp | date: 'medium' }}</p>
         </div>
         <div class="card-actions">
           <button class="edit-btn" (click)="editAppointment(i)">Edit</button>
-          <button class="delete-btn" (click)="deleteAppointment(i)">Delete</button>
+          <button class="delete-btn" (click)="deleteAppointment(i)">
+            Delete
+          </button>
         </div>
       </div>
     </div>

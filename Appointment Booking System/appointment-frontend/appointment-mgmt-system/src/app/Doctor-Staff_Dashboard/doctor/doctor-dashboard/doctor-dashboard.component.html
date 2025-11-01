@@ -114,7 +114,6 @@
     </section>
   </main>
 </div> -->
-
 <div class="dashboard-root">
   <header class="navbar">
     <button class="menu-btn" (click)="toggleSidebar()" aria-label="menu">☰</button>
@@ -126,47 +125,45 @@
   </header>
 
   <!-- 🌟 Account & Availability Panel -->
-  <!-- 🌟 Account & Availability Panel -->
-<div class="account-panel">
-  <div class="panel-row">
-    <div class="panel-item">
-      <label>Account Status</label>
-      <div class="status-pill" 
-           [ngClass]="{ active: accountStatus === 'Active', inactive: accountStatus === 'Inactive' }">
-        {{ accountStatus }}
-      </div>
-    </div>
-
-    <div class="panel-item">
-      <label>Current Status</label>
-
-      <!-- Only show dropdown if Active -->
-      <div class="inline" *ngIf="accountStatus === 'Active'; else inactiveBlock">
-        <select [(ngModel)]="availability">
-          <option *ngFor="let s of availabilityOptions" [value]="s">{{ s }}</option>
-        </select>
-        <button class="mini-btn" (click)="updateAvailability()">Update</button>
+  <div class="account-panel">
+    <div class="panel-row">
+      <div class="panel-item">
+        <label>Account Status</label>
+        <div class="status-pill"
+             [ngClass]="{ active: accountStatus === 'Active', inactive: accountStatus === 'Inactive' }">
+          {{ accountStatus }}
+        </div>
       </div>
 
-      <!-- When inactive -->
-      <ng-template #inactiveBlock>
-        <span class="muted">--</span>
-      </ng-template>
-    </div>
+      <div class="panel-item">
+        <label>Current Status</label>
+        <div class="inline" *ngIf="accountStatus === 'Active'; else inactiveBlock">
+          <select [(ngModel)]="availability">
+            <option *ngFor="let s of availabilityOptions" [value]="s">{{ s }}</option>
+          </select>
+          <button class="mini-btn" (click)="updateAvailability()">Update</button>
+        </div>
 
-    <div class="panel-item">
-      <label>Shift</label>
-      <span *ngIf="!loadingAllocations">{{ latestShift || '—' }}</span>
-      <span *ngIf="loadingAllocations">Loading...</span>
-    </div>
+        <ng-template #inactiveBlock>
+          <span class="muted">--</span>
+        </ng-template>
+      </div>
 
-    <div class="panel-item">
-      <label>Room No.</label>
-      <span *ngIf="!loadingAllocations">{{ latestRoom || '—' }}</span>
-      <span *ngIf="loadingAllocations">Loading...</span>
+      <div class="panel-item">
+        <label>Shift</label>
+        <span *ngIf="!loadingAllocations">{{ latestShift || '—' }}</span>
+        <span *ngIf="loadingAllocations">Loading...</span>
+      </div>
+
+      <div class="panel-item">
+        <label>Room No.</label>
+        <span *ngIf="!loadingAllocations">{{ latestRoom || '—' }}</span>
+        <span *ngIf="loadingAllocations">Loading...</span>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- 🌟 Sidebar -->
   <aside class="sidebar" [class.open]="sidebarOpen">
     <div class="sidebar-inner">
       <button class="close-btn" (click)="toggleSidebar()">✕</button>
@@ -179,56 +176,65 @@
     </div>
   </aside>
 
+  <!-- 🌟 Main Content -->
   <main class="content" [class.shifted]="sidebarOpen">
     <section class="today">
+
+      <!-- ✅ Appointments -->
       <div class="content" *ngIf="currentView === 'appointments'">
         <h2>Scheduled Appointments</h2>
-        <div *ngFor="let a of appointments" class="appointment" [class.past]="isPast(a.dateTime)">
-          <div class="left">
-            <div class="pname">{{ a.patientName }}</div>
-            <div class="pid">ID: {{ a.patientId }}</div>
-          </div>
-          <div class="right">
-            <div class="datetime">{{ formatDate(a.dateTime) }}</div>
-            <div class="desc">{{ a.description }}</div>
-            <div class="status" [class.consulted]="a.consulted">
-              Status: {{ a.consulted ? 'Consulted' : 'Pending' }}
-            </div>
+        <hr class="divider" />
 
-            <div class="actions">
-              <button *ngIf="!a.consulted" (click)="markConsulted(a)">Mark Consulted</button>
-              <button (click)="openFollowUpForm(a.id)">Add Follow-up</button>
+        <div *ngIf="appointments.length > 0; else noApp">
+          <div *ngFor="let a of appointments" class="appointment">
+            <div class="left">
+              <div class="pname">Patient ID: {{ a.patientId }}</div>
+              <div class="pid">Type: {{ a.type }}</div>
+              <div class="pid">Slot: {{ a.slot }}</div>
             </div>
-
-            <!-- Follow-up form -->
-            <div *ngIf="showFollowUpFormFor === a.id" class="followup-form">
-              <input type="datetime-local" [(ngModel)]="newFollowUpDate" placeholder="Select date and time" />
-              <div class="form-buttons">
-                <button (click)="addFollowUp(a)">Save</button>
-                <button class="cancel" (click)="cancelFollowUp()">Cancel</button>
-              </div>
+            <div class="right">
+              <div class="datetime">Time: {{ a.time }}</div>
+              <div class="desc">{{ a.description }}</div>
+              <!-- <div class="status">Doctor: {{ a.doctorName }}</div> -->
+              <!-- <div class="timestamp">Created: {{ a.timestamp | date:'short' }}</div> -->
             </div>
           </div>
         </div>
 
-        <div *ngIf="appointments.length === 0" class="no-app">No scheduled appointments.</div>
+        <ng-template #noApp>
+          <div class="no-app">No scheduled appointments.</div>
+        </ng-template>
       </div>
 
+      <!-- ✅ History -->
       <div class="content" *ngIf="currentView === 'history'">
         <h2>Appointment History</h2>
-        <div *ngFor="let a of historyAppointments" class="appointment-card consulted">
-          <p><b>Patient:</b> {{ a.patientName }}</p>
-          <p><b>Date:</b> {{ formatDate(a.dateTime) }}</p>
-          <p><b>Description:</b> {{ a.description }}</p>
-          <p><b>Status:</b> Consulted ✅</p>
+        <hr class="divider" />
+
+        <div *ngIf="historyAppointments.length > 0; else noHistory">
+          <div *ngFor="let a of historyAppointments" class="appointment past">
+            <div class="left">
+              <div class="pname">Patient ID: {{ a.patientId }}</div>
+              <div class="pid">Type: {{ a.type }}</div>
+            </div>
+            <div class="right">
+              <div class="datetime">{{ a.time }}</div>
+              <div class="desc">{{ a.description }}</div>
+              <div class="status consulted">Status: Consulted ✅</div>
+            </div>
+          </div>
         </div>
 
-        <div *ngIf="historyAppointments.length === 0" class="no-app">No appointments history.</div>
+        <ng-template #noHistory>
+          <div class="no-app">No appointments history.</div>
+        </ng-template>
       </div>
 
+      <!-- ✅ Profile -->
       <div class="content" *ngIf="currentView === 'profile'">
         <app-doctor-profile></app-doctor-profile>
       </div>
+
     </section>
   </main>
 </div>

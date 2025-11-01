@@ -1,101 +1,59 @@
 package com.appointment.bookingsystem.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
-@Table(name = "appointments")
+@Table(name = "appointment", uniqueConstraints = {
+	    @UniqueConstraint(columnNames = "appointmentId")
+	})
 public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Patient name is required")
-    @Column(nullable = false)
-    private String patientName;
 
-    @NotBlank(message = "Doctor name is required")
-    @Column(nullable = false)
+    private String appointmentId;
+    
+    @Column(nullable = false, unique = true)
+    private String patientId;
+    private String doctorId;
     private String doctorName;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    @NotNull(message = "Appointment date and time is required")
-    @Column(nullable = false)
-    private LocalDateTime appointmentDateTime;
-
-    @Column(length = 500)
     private String description;
+    private String time;
+    private String slot;
+    private String type;
+    private LocalDateTime timestamp;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private AppointmentStatus status = AppointmentStatus.SCHEDULED;
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Appointment() {
-    }
+    public String getAppointmentId() { return appointmentId; }
+    public void setAppointmentId(String appointmentId) { this.appointmentId = appointmentId; }
 
-    public Appointment(String patientName, String doctorName, LocalDateTime appointmentDateTime, String description) {
-        this.patientName = patientName;
-        this.doctorName = doctorName;
-        this.appointmentDateTime = appointmentDateTime;
-        this.description = description;
-    }
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
-    // Getters and setters
+    public String getDoctorId() { return doctorId; }
+    public void setDoctorId(String doctorId) { this.doctorId = doctorId; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getDoctorName() { return doctorName; }
+    public void setDoctorName(String doctorName) { this.doctorName = doctorName; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getPatientName() {
-        return patientName;
-    }
+    public String getTime() { return time; }
+    public void setTime(String time) { this.time = time; }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
+    public String getSlot() { return slot; }
+    public void setSlot(String slot) { this.slot = slot; }
 
-    public String getDoctorName() {
-        return doctorName;
-    }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
 
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
-
-    public LocalDateTime getAppointmentDateTime() {
-        return appointmentDateTime;
-    }
-
-    public void setAppointmentDateTime(LocalDateTime appointmentDateTime) {
-        this.appointmentDateTime = appointmentDateTime;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public AppointmentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AppointmentStatus status) {
-        this.status = status;
-    }
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
 }
