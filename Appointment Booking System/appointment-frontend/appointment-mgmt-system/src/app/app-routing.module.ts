@@ -78,7 +78,7 @@ import { DoctorProfileComponent } from './Doctor-Staff_Dashboard/doctor/doctor-p
 import { StaffDashboardComponent } from './staff/staff-dashboard/staff-dashboard.component';
 import { staffAuthGuard } from './staff-auth-guard.guard';
 // import { AppointmentListComponent } from './component/appointment-list/appointment-list.component';
-import { AppointmentListComponent } from './component/Admin Dashboard/appointment-list/appointment-list.component';
+import { AppointmentListComponent } from './component/appointment-list/appointment-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'Access-Point/Appointment-Booking-System/auth-admin/login', pathMatch: 'full' },

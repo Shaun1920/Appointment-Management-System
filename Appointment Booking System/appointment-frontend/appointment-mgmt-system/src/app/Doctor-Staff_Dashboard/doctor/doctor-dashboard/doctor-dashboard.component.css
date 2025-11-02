@@ -240,3 +240,32 @@ main.content.shifted{ margin-left:260px; }
 @media (max-width:500px){
   .panel-row{ grid-template-columns:1fr; }
 }
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.mini-btn {
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.mini-btn:hover {
+  background: #125ea6;
+}
+
+.mini-btn[disabled] {
+  background: gray;
+  cursor: not-allowed;
+}
+
+.calendar-popup {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+}

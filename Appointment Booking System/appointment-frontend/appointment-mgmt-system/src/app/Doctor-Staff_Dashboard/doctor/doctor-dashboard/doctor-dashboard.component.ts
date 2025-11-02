@@ -1,219 +1,14 @@
-// import { Component, OnInit } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { Appointment } from 'src/app/model/Appointment.model';
-// import { Router } from '@angular/router';
-// import { DoctorProfileService, DoctorProfile } from 'src/app/service/doctor-profile.service';
-// import { DoctorProfileComponent } from '../../doctor-profile/doctor-profile.component';
-// import { AllocationService } from 'src/app/service/allocation.service';
-// import { StatusService } from 'src/app/service/status.service';
-
-// @Component({
-//   selector: 'app-doctor-dashboard',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule, DoctorProfileComponent],
-//   templateUrl: './doctor-dashboard.component.html',
-//   styleUrls: ['./doctor-dashboard.component.css']
-// })
-// export class DoctorDashboardComponent implements OnInit {
-//   sidebarOpen = false;
-//   appointments: Appointment[] = [];
-//   showFollowUpFormFor: number | null = null;
-//   newFollowUpDate = '';
-
-//   doctorName = 'Loading…';
-//   accountStatus: 'Active' | 'Inactive' = 'Inactive';
-//   availabilityOptions = ['Available', 'Busy', 'On Leave'];
-//   availability: string = '--';
-
-//   latestShift: string | null = null;
-//   latestRoom: string | null = null;
-//   loadingAllocations = false;
-
-//   constructor(
-//     private router: Router,
-//     private doctorService: DoctorProfileService,
-//     private allocationService: AllocationService,
-//     private statusService: StatusService
-//   ) {}
-
-//   ngOnInit(): void {
-//     // Mock data
-//     this.appointments = [
-//       {
-//         id: 1,
-//         patientName: 'Rahul Sharma',
-//         dateTime: new Date(Date.now() + 30 * 60000).toISOString(),
-//         patientId: 'P1001',
-//         description: 'Follow-up',
-//         consulted: false,
-//         doctorId: 'doc101',
-//         consultingFees: 0,
-//         specialization: 'Cardiologist',
-//         slot: ''
-//       },
-//       {
-//         id: 2,
-//         patientName: 'Anita Patel',
-//         dateTime: new Date(Date.now() + 90 * 60000).toISOString(),
-//         patientId: 'P1002',
-//         description: 'New consult',
-//         consulted: false,
-//         doctorId: 'doc101',
-//         consultingFees: 0,
-//         specialization: 'Cardiologist',
-//         slot: ''
-//       }
-//     ];
-//     this.sortAppointments();
-
-//     const stored = localStorage.getItem('doctorSession');
-//     if (stored) {
-//       const { doctorCode } = JSON.parse(stored);
-//       if (doctorCode) {
-//         this.accountStatus = 'Active';
-//         this.statusService.setAccount(doctorCode, 'Active').subscribe();
-
-//         this.doctorService.getDoctorByCode(doctorCode).subscribe({
-//           next: (res: DoctorProfile) => {
-//             this.doctorName = res.doctorName;
-
-//             // fetch backend status
-//             this.statusService.getOne(doctorCode).subscribe((ds) => {
-//               if (ds?.accountStatus === 'Inactive') {
-//                 this.accountStatus = 'Inactive';
-//                 this.availability = '--';
-//               } else {
-//                 this.accountStatus = 'Active';
-//                 this.availability = ds?.currentStatus || 'Available';
-//               }
-//             });
-
-//             this.loadAllocations(doctorCode);
-//           },
-//           error: () => (this.doctorName = 'Unknown')
-//         });
-//       } else {
-//         this.accountStatus = 'Inactive';
-//         this.availability = '--';
-//       }
-//     } else {
-//       this.accountStatus = 'Inactive';
-//       this.availability = '--';
-//     }
-//   }
-
-//   loadAllocations(doctorCode: string) {
-//     this.loadingAllocations = true;
-//     this.allocationService.getByDoctorCode(doctorCode).subscribe({
-//       next: (res) => {
-//         if (res && res.length > 0) {
-//           const a = res[0];
-//           this.latestShift = a.shift || null;
-//           this.latestRoom = a.floorRoomNo || null;
-//         } else {
-//           this.latestShift = null;
-//           this.latestRoom = null;
-//         }
-//       },
-//       error: (err) => console.error('Error fetching allocations', err),
-//       complete: () => (this.loadingAllocations = false)
-//     });
-//   }
-
-//   updateAvailability() {
-//     if (this.accountStatus !== 'Active') {
-//       alert('Account is inactive. You cannot change status.');
-//       return;
-//     }
-
-//     const stored = localStorage.getItem('doctorSession');
-//     const code = stored ? JSON.parse(stored).doctorCode : null;
-//     if (!code) return;
-
-//     this.statusService.setAvailability(code, this.availability).subscribe({
-//       next: () => alert(`Availability updated to "${this.availability}"`),
-//       error: () => alert('Failed to update availability')
-//     });
-//   }
-
-//   // other unchanged logic below
-
-//   formatDate(dt: string) {
-//     const d = new Date(dt);
-//     return d.toLocaleDateString() + ' • ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-//   }
-
-//   sortAppointments() {
-//     this.appointments.sort(
-//       (a, b) => new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()
-//     );
-//   }
-
-//   toggleSidebar() { this.sidebarOpen = !this.sidebarOpen; }
-//   isPast(dateTime: string) { return new Date(dateTime).getTime() < Date.now(); }
-
-//   openFollowUpForm(id: number) { this.showFollowUpFormFor = id; this.newFollowUpDate = ''; }
-//   cancelFollowUp() { this.showFollowUpFormFor = null; this.newFollowUpDate = ''; }
-
-//   addFollowUp(base: Appointment) {
-//     if (!this.newFollowUpDate) { alert('Please select a follow-up date and time'); return; }
-//     const newFollowUp: Appointment = {
-//       id: this.appointments.length + 1,
-//       patientName: base.patientName,
-//       patientId: base.patientId,
-//       dateTime: this.newFollowUpDate,
-//       description: 'Follow-up appointment',
-//       consulted: false,
-//       doctorId: '',
-//       consultingFees: 0,
-//       specialization: '',
-//       slot: ''
-//     };
-//     this.appointments.push(newFollowUp);
-//     this.sortAppointments();
-//     this.cancelFollowUp();
-//     alert('Follow-up added successfully!');
-//   }
-
-//   currentView: 'appointments' | 'history' | 'profile' = 'appointments';
-//   viewAppointments() { this.currentView = 'appointments'; this.sidebarOpen = false; }
-//   viewHistory() { this.currentView = 'history'; this.sidebarOpen = false; }
-
-//   historyAppointments: Appointment[] = [];
-//   markConsulted(a: Appointment) {
-//     a.consulted = true;
-//     this.historyAppointments.push(a);
-//     this.appointments = this.appointments.filter(x => x.id !== a.id);
-//     this.sortAppointments();
-//   }
-
-//   viewProfile() { this.currentView = 'profile'; this.sidebarOpen = false; }
-
-//   logout() {
-//     const stored = localStorage.getItem('doctorSession');
-//     const code = stored ? JSON.parse(stored).doctorCode : null;
-//     if (code) this.statusService.setAccount(code, 'Inactive').subscribe();
-
-//     localStorage.removeItem('doctorSession');
-//     this.accountStatus = 'Inactive';
-//     this.availability = '--';
-//     alert('Logout Successful!');
-//     this.router.navigate(['/doctor-login']).then(() => window.location.reload());
-//   }
-
-//   activePage = 'appointments';
-//   setActive(p: string) { this.activePage = p; }
-// }
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DoctorDashboardService, Appointment } from 'src/app/service/doctor-dashboard.service';
+
 import { DoctorProfileComponent } from '../doctor-profile/doctor-profile.component';
 import { DoctorProfileService, DoctorProfile } from 'src/app/service/Doctor Service/doctor-profile.service';
 import { StatusService } from 'src/app/service/Doctor Service/status.service';
 import { DoctorAllocationService, Allocation } from 'src/app/service/Doctor Service/doctor-allocation.service';
+import { DoctorDashboardService } from 'src/app/service/doctor-dashboard.service';
+import { Appointment } from 'src/app/model/Appointment.model';
 
 @Component({
   selector: 'app-doctor-dashboard',
@@ -223,27 +18,36 @@ import { DoctorAllocationService, Allocation } from 'src/app/service/Doctor Serv
   styleUrls: ['./doctor-dashboard.component.css']
 })
 export class DoctorDashboardComponent implements OnInit {
+
   sidebarOpen = false;
+  loading = false;
+  loadingAllocations = false;
+
   doctorName: string = 'Loading…';
   doctorId: string = '';
-  appointments: Appointment[] = [];
-  historyAppointments: Appointment[] = [];
-  currentView: 'appointments' | 'history' | 'profile' = 'appointments';
-  loading = false;
-
   accountStatus: 'Active' | 'Inactive' = 'Inactive';
   availabilityOptions = ['Available', 'Busy', 'On Leave'];
   availability: string = '--';
   latestShift: string | null = null;
   latestRoom: string | null = null;
-  loadingAllocations = false;
+
+  appointments: (Appointment & { visited?: boolean; followupDate?: string })[] = [];
+  filteredAppointments: (Appointment & { visited?: boolean; followupDate?: string })[] = [];
+  historyAppointments: Appointment[] = [];
+
+  currentView: 'appointments' | 'history' | 'profile' = 'appointments';
+  today: string = new Date().toISOString().split('T')[0];
+
+  // ✅ New variables for follow-up calendar
+  selectedDate: string = '';
+  showCalendarFor: string | null = null;
 
   constructor(
     private router: Router,
-    private dashboardService: DoctorDashboardService,
     private doctorService: DoctorProfileService,
     private statusService: StatusService,
-    private doctorAllocationService: DoctorAllocationService
+    private doctorAllocationService: DoctorAllocationService,
+    private dashboardService: DoctorDashboardService
   ) {}
 
   ngOnInit(): void {
@@ -263,7 +67,7 @@ export class DoctorDashboardComponent implements OnInit {
 
     this.doctorId = user.doctorCode;
 
-    // ✅ Mark doctor as Active in backend on login
+    // ✅ Set account active on login
     this.statusService.setAccount(this.doctorId, 'Active').subscribe({
       next: () => console.log('Account status set to Active'),
       error: (err) => console.error('Failed to set account active:', err)
@@ -297,12 +101,12 @@ export class DoctorDashboardComponent implements OnInit {
     });
   }
 
-  // ✅ Fetch allocations (shift, room)
+  // ✅ Load doctor allocations
   loadAllocations(doctorCode: string): void {
     this.loadingAllocations = true;
     this.doctorAllocationService.getByDoctorCode(doctorCode).subscribe({
       next: (res: Allocation[]) => {
-        if (res && res.length > 0) {
+        if (res?.length) {
           res.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
           const latest = res[0];
           this.latestShift = latest.shift;
@@ -317,14 +121,19 @@ export class DoctorDashboardComponent implements OnInit {
     });
   }
 
-  // ✅ Fetch appointments from backend
+  // ✅ Load appointments for doctor
   loadAppointments(): void {
     if (!this.doctorId) return;
     this.loading = true;
 
     this.dashboardService.getAppointments(this.doctorId).subscribe({
-      next: (data) => {
-        this.appointments = data;
+      next: (data: Appointment[]) => {
+        this.appointments = data.map(a => ({
+          ...a,
+          visited: false,
+          followupDate: ''
+        }));
+        this.filteredAppointments = [...this.appointments];
         this.loading = false;
       },
       error: (err) => {
@@ -334,7 +143,60 @@ export class DoctorDashboardComponent implements OnInit {
     });
   }
 
-  // ✅ Update availability
+  // ✅ Mark appointment as visited
+  markVisited(a: any) {
+    if (!a.appointmentId || !a.patientId) {
+      alert('Missing appointment or patient ID');
+      return;
+    }
+
+    this.dashboardService.markVisited(a.appointmentId, a.patientId).subscribe({
+      next: () => {
+        a.visited = true;
+        alert('✅ Visit marked successfully!');
+      },
+      error: (err) => {
+        console.error('❌ Error marking visit:', err);
+        alert('Error marking visit.');
+      }
+    });
+  }
+
+  // ✅ Open follow-up calendar
+  openCalendar(a: any) {
+    this.showCalendarFor = a.appointmentId;
+    this.selectedDate = ''; // reset previous date
+  }
+
+  // ✅ Schedule follow-up
+  scheduleFollowup(a: any) {
+    if (!this.selectedDate) {
+      alert('Please select a date first!');
+      return;
+    }
+
+    this.dashboardService.scheduleFollowup(a.appointmentId, a.patientId, this.selectedDate)
+      .subscribe({
+        next: () => {
+          a.followupDate = this.selectedDate;
+          this.showCalendarFor = null;
+          this.selectedDate = '';
+          alert('📅 Follow-up scheduled successfully!');
+        },
+        error: (err) => {
+          console.error('❌ Error scheduling follow-up:', err);
+          alert('Error scheduling follow-up.');
+        }
+      });
+  }
+
+  // ✅ Filtering and status logic
+  filterAppointments(status: string): void {
+    if (status === 'All') this.filteredAppointments = [...this.appointments];
+    else if (status === 'Visited') this.filteredAppointments = this.appointments.filter(a => a.visited);
+    else if (status === 'Pending') this.filteredAppointments = this.appointments.filter(a => !a.visited);
+  }
+
   updateAvailability(): void {
     if (this.accountStatus !== 'Active') {
       alert('Account is inactive. You cannot change status.');
@@ -347,8 +209,7 @@ export class DoctorDashboardComponent implements OnInit {
     });
   }
 
-  // ✅ Utility
-  formatDate(dt: string) {
+  formatDate(dt: string): string {
     const d = new Date(dt);
     return d.toLocaleDateString() + ' • ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
@@ -358,12 +219,12 @@ export class DoctorDashboardComponent implements OnInit {
   viewHistory() { this.currentView = 'history'; this.sidebarOpen = false; }
   viewProfile() { this.currentView = 'profile'; this.sidebarOpen = false; }
 
-  // ✅ Logout doctor and set account to Inactive
-  logout() {
+  logout(): void {
     this.statusService.setAccount(this.doctorId, 'Inactive').subscribe({
       next: () => console.log('Account set to Inactive on logout'),
       error: (err) => console.error('Failed to set account inactive:', err)
     });
+
     localStorage.removeItem('userSession');
     localStorage.removeItem('token');
     alert('Logout Successful!');

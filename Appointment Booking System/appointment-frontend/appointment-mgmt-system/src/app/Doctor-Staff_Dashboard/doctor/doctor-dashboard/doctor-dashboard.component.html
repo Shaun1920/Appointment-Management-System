@@ -129,8 +129,13 @@
     <div class="panel-row">
       <div class="panel-item">
         <label>Account Status</label>
-        <div class="status-pill"
-             [ngClass]="{ active: accountStatus === 'Active', inactive: accountStatus === 'Inactive' }">
+        <div
+          class="status-pill"
+          [ngClass]="{
+            active: accountStatus === 'Active',
+            inactive: accountStatus === 'Inactive'
+          }"
+        >
           {{ accountStatus }}
         </div>
       </div>
@@ -139,7 +144,9 @@
         <label>Current Status</label>
         <div class="inline" *ngIf="accountStatus === 'Active'; else inactiveBlock">
           <select [(ngModel)]="availability">
-            <option *ngFor="let s of availabilityOptions" [value]="s">{{ s }}</option>
+            <option *ngFor="let s of availabilityOptions" [value]="s">
+              {{ s }}
+            </option>
           </select>
           <button class="mini-btn" (click)="updateAvailability()">Update</button>
         </div>
@@ -182,29 +189,64 @@
 
       <!-- ✅ Appointments -->
       <div class="content" *ngIf="currentView === 'appointments'">
-        <h2>Scheduled Appointments</h2>
-        <hr class="divider" />
+  <h2>Scheduled Appointments</h2>
+  <hr class="divider" />
 
-        <div *ngIf="appointments.length > 0; else noApp">
-          <div *ngFor="let a of appointments" class="appointment">
-            <div class="left">
-              <div class="pname">Patient ID: {{ a.patientId }}</div>
-              <div class="pid">Type: {{ a.type }}</div>
-              <div class="pid">Slot: {{ a.slot }}</div>
-            </div>
-            <div class="right">
-              <div class="datetime">Time: {{ a.time }}</div>
-              <div class="desc">{{ a.description }}</div>
-              <!-- <div class="status">Doctor: {{ a.doctorName }}</div> -->
-              <!-- <div class="timestamp">Created: {{ a.timestamp | date:'short' }}</div> -->
-            </div>
-          </div>
+  <div *ngIf="appointments.length > 0; else noApp">
+    <div *ngFor="let a of appointments" class="appointment">
+      <div class="left">
+        <div class="pname">Appointment ID: {{ a.appointmentId }}</div>
+        <div class="pname">Patient ID: {{ a.patientId }}</div>
+        <div class="pid">Type: {{ a.type }}</div>
+        <div class="pid">Slot: {{ a.slot }}</div>
+      </div>
+
+      <div class="right">
+        <div class="datetime">Time: {{ a.time }}</div>
+        <div class="desc">{{ a.description }}</div>
+
+        <!-- ✅ Action Buttons -->
+        <div class="actions">
+          <button
+            class="mini-btn visit-btn"
+            [disabled]="a.visited"
+            (click)="markVisited(a)"
+          >
+            {{ a.visited ? 'Visited ✅' : 'Visit' }}
+          </button>
+
+          <button
+            class="mini-btn followup-btn"
+            [disabled]="!a.visited"
+            (click)="openCalendar(a)"
+          >
+            {{ a.followupDate ? 'Follow-up: ' + a.followupDate : 'Follow-up' }}
+          </button>
         </div>
 
-        <ng-template #noApp>
-          <div class="no-app">No scheduled appointments.</div>
-        </ng-template>
+        <!-- ✅ Calendar for Follow-up -->
+        <div
+          *ngIf="showCalendarFor === a.appointmentId"
+          class="calendar-popup"
+        >
+          <input
+            type="date"
+            [(ngModel)]="selectedDate"
+            [min]="today"
+            class="calendar-input"
+          />
+          <button class="mini-btn save-btn" (click)="scheduleFollowup(a)">
+            Save
+          </button>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <ng-template #noApp>
+    <div class="no-app">No scheduled appointments.</div>
+  </ng-template>
+</div>
 
       <!-- ✅ History -->
       <div class="content" *ngIf="currentView === 'history'">

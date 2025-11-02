@@ -1,14 +1,19 @@
 export interface Appointment {
   id: number;
-  appointmentId: number;
-  patientName: string;  
+  appointmentId: string;
+  patientName: string;
   patientId: string;
   doctorId: string;
   dateTime: string;
+  time?: string;
   consultingFees: number;
   description: string;
   specialization: string;
   slot: string;
-  consulted?: boolean;   // 👈 New: whether the patient is consulted
-  followUpDate?: string; // 👈 New: optional follow-up date
+  type?: string;
+
+  // New fields for tracking visit and follow-up
+  visited?: boolean;
+  showCalendar?: boolean;
+  followupDate?: string;
 }
