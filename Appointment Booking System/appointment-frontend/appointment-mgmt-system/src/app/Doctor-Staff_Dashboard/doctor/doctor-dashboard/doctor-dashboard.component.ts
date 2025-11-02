@@ -9,11 +9,12 @@ import { StatusService } from 'src/app/service/Doctor Service/status.service';
 import { DoctorAllocationService, Allocation } from 'src/app/service/Doctor Service/doctor-allocation.service';
 import { DoctorDashboardService } from 'src/app/service/doctor-dashboard.service';
 import { Appointment } from 'src/app/model/Appointment.model';
+import { CalendarComponent } from "../../calendar/calendar.component";
 
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, DoctorProfileComponent],
+  imports: [CommonModule, FormsModule, DoctorProfileComponent, CalendarComponent],
   templateUrl: './doctor-dashboard.component.html',
   styleUrls: ['./doctor-dashboard.component.css']
 })
@@ -35,7 +36,7 @@ export class DoctorDashboardComponent implements OnInit {
   filteredAppointments: (Appointment & { visited?: boolean; followupDate?: string })[] = [];
   historyAppointments: Appointment[] = [];
 
-  currentView: 'appointments' | 'history' | 'profile' = 'appointments';
+  currentView: 'appointments'|'calendar' | 'history' | 'profile' = 'appointments';
   today: string = new Date().toISOString().split('T')[0];
 
   // ✅ New variables for follow-up calendar
@@ -213,11 +214,15 @@ export class DoctorDashboardComponent implements OnInit {
     const d = new Date(dt);
     return d.toLocaleDateString() + ' • ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
+ 
 
   toggleSidebar() { this.sidebarOpen = !this.sidebarOpen; }
   viewAppointments() { this.currentView = 'appointments'; this.sidebarOpen = false; }
   viewHistory() { this.currentView = 'history'; this.sidebarOpen = false; }
   viewProfile() { this.currentView = 'profile'; this.sidebarOpen = false; }
+ viewFollowupCalendar() {
+  this.currentView = 'calendar'; this.sidebarOpen=false;}
+
 
   logout(): void {
     this.statusService.setAccount(this.doctorId, 'Inactive').subscribe({

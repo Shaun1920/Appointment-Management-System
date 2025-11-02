@@ -176,6 +176,7 @@
       <button class="close-btn" (click)="toggleSidebar()">✕</button>
       <nav class="sidebar-menu">
         <button (click)="viewAppointments()">View Appointments</button>
+        <button (click)="viewFollowupCalendar()">Follow-up Calendar</button>
         <button (click)="viewHistory()">Appointments History</button>
         <button (click)="viewProfile()">View Profile</button>
         <button class="logout-btn" (click)="logout()">Logout</button>
@@ -246,6 +247,15 @@
   <ng-template #noApp>
     <div class="no-app">No scheduled appointments.</div>
   </ng-template>
+</div>
+
+<!-- ✅ Follow-up Calendar -->
+<div class="content" *ngIf="currentView === 'calendar'">
+  <h2>Follow-up Calendar</h2>
+  <hr class="divider" />
+
+  <!-- 📅 Embed the standalone calendar component -->
+  <app-calendar></app-calendar>
 </div>
 
       <!-- ✅ History -->

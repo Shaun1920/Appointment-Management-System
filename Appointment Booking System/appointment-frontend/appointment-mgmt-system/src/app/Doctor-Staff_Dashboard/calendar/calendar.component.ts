@@ -1,30 +1,46 @@
-import { Component } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common'; // ✅ Important for *ngIf, *ngFor, and date pipe
+import { Component, OnInit } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
-interface Appointment {
-  date: string;
-  title: string;
+interface Followup {
+  appointmentId: string;
+  followupDate: string;
+  patientId: string;
+  notes: string;
 }
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, DatePipe], // ✅ Fixes all template warnings
+  imports: [CommonModule, DatePipe],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   currentDate = new Date();
   daysInMonth: Date[] = [];
+  followups: Followup[] = [];
 
-  appointments: Appointment[] = [
-    { date: '2025-10-05', title: 'Doctor Appointment' },
-    { date: '2025-10-12', title: 'Team Meeting' },
-    { date: '2025-10-20', title: 'Project Deadline' }
-  ];
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.generateCalendar();
+    this.loadFollowups();
+  }
+
+  // ✅ Fetch from backend and fix timezone shift issue
+  loadFollowups() {
+    this.http.get<Followup[]>('http://localhost:8080/api/doctor/followups').subscribe({
+      next: (data) => {
+        this.followups = data.map(f => {
+          const localDate = new Date(f.followupDate);
+          // ✅ Adjust date to match backend correctly
+          localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
+          return { ...f, followupDate: localDate.toISOString().split('T')[0] };
+        });
+      },
+      error: (err) => console.error('Error loading followups:', err)
+    });
   }
 
   generateCalendar() {
@@ -36,20 +52,20 @@ export class CalendarComponent {
     const lastDay = new Date(year, month + 1, 0);
     const startDay = firstDay.getDay();
 
-    // Empty slots before first day
+    // Empty slots for days before the 1st of month
     for (let i = 0; i < startDay; i++) {
-      this.daysInMonth.push(new Date(NaN)); // placeholder for empty cells
+      this.daysInMonth.push(new Date(NaN));
     }
 
-    // Days in current month
+    // Days in the current month
     for (let i = 1; i <= lastDay.getDate(); i++) {
       this.daysInMonth.push(new Date(year, month, i));
     }
   }
 
-  getAppointments(date: Date): Appointment[] {
+  getFollowupsForDay(date: Date): Followup[] {
     const dateStr = date.toISOString().split('T')[0];
-    return this.appointments.filter(app => app.date === dateStr);
+    return this.followups.filter(f => f.followupDate === dateStr);
   }
 
   nextMonth() {
@@ -62,7 +78,6 @@ export class CalendarComponent {
     this.generateCalendar();
   }
 
-  // ✅ Fix for "isNaN does not exist"
   isInvalidDate(date: Date): boolean {
     return isNaN(date.getTime());
   }
