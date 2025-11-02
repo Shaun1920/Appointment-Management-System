@@ -17,7 +17,7 @@ public class VisitFollowupController {
     @Autowired
     private VisitFollowupService service;
 
-    // ✅ Handles both visit and follow-up in one endpoint
+    // ✅ Doctor records visit and schedules follow-up
     @PostMapping("/{appointmentId}/visit")
     public VisitFollowup addFollowup(
             @PathVariable String appointmentId,
@@ -36,22 +36,45 @@ public class VisitFollowupController {
             }
         }
 
-        // Default to today's date if none provided
+        // Default logic for doctor actions
         if (followupDate == null) {
             followupDate = LocalDate.now();
             notes = notes.isEmpty() ? "Visited and follow-up recorded" : notes;
         } else {
-            notes = notes.isEmpty() ? "Follow-up scheduled" : notes;
+            notes = notes.isEmpty() ? "Visited and Follow-up scheduled" : notes;
         }
 
         return service.saveFollowup(appointmentId, patientId, followupDate, notes);
     }
 
+    // 🧾 Get all follow-ups (for staff dashboard tracker)
+    @GetMapping("/all")
+    public List<VisitFollowup> getAllFollowups() {
+        return service.getAllFollowups();
+    }
+
+    // 🧩 Doctor updates notes if required
+    @PutMapping("/update-notes/{appointmentId}/{patientId}")
+    public VisitFollowup updateNotes(
+            @PathVariable String appointmentId,
+            @PathVariable String patientId,
+            @RequestBody String notes) {
+        return service.updateNotes(appointmentId, patientId, notes);
+    }
+
+    // 💰 Staff marks payment as completed
+    @PutMapping("/complete-payment/{id}")
+    public VisitFollowup markPaymentCompleted(@PathVariable Long id) {
+        return service.markPaymentCompleted(id);
+    }
+
+    // 🔍 Get all follow-ups for a specific patient
     @GetMapping("/patient/{patientId}")
     public List<VisitFollowup> getFollowupsByPatient(@PathVariable String patientId) {
         return service.getFollowupsByPatient(patientId);
     }
 
+    // 🔍 Get all follow-ups for a specific appointment
     @GetMapping("/appointment/{appointmentId}")
     public List<VisitFollowup> getFollowupsByAppointment(@PathVariable String appointmentId) {
         return service.getFollowupsByAppointment(appointmentId);

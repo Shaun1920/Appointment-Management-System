@@ -9,7 +9,7 @@ import { StatusService } from 'src/app/service/Doctor Service/status.service';
 import { DoctorAllocationService, Allocation } from 'src/app/service/Doctor Service/doctor-allocation.service';
 import { DoctorDashboardService } from 'src/app/service/doctor-dashboard.service';
 import { Appointment } from 'src/app/model/Appointment.model';
-import { CalendarComponent } from "../../calendar/calendar.component";
+import { CalendarComponent } from "../calendar/calendar.component";
 
 @Component({
   selector: 'app-doctor-dashboard',
@@ -182,7 +182,7 @@ export class DoctorDashboardComponent implements OnInit {
           a.followupDate = this.selectedDate;
           this.showCalendarFor = null;
           this.selectedDate = '';
-          alert('📅 Follow-up scheduled successfully!');
+          alert('📅 Visited &Follow-up scheduled successfully!');
         },
         error: (err) => {
           console.error('❌ Error scheduling follow-up:', err);

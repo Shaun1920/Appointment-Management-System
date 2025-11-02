@@ -1,126 +1,30 @@
-/* Page container centered*/
-.page{
-  max-width: 1200px;
-  margin: 24px auto 56px;
-  padding: 0 16px;
+.tracker-container {
+  padding: 20px;
+  background: #f9f9f9;
 }
 
-/* Header */
-.head h1{
-  margin: 0 0 4px;
-  font-size: 38px;
-  font-weight: 800;
-  letter-spacing: .3px;
-}
-.sub{ color:#6b7280; margin:0 0 22px }
-
-/* Two-column grid on desktop, one column on small screens */
-.grid{
-  display: grid;
-  gap: 18px;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 1024px){
-  .grid{ grid-template-columns: repeat(2, minmax(420px, 1fr)); }
+.followup-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-/* Card */
-.card{
-  background:#fff;
-  border:1px solid #e5e7eb;
-  border-radius: 18px;
-  padding: 22px 24px;
-  box-shadow: 0 10px 22px rgba(0,0,0,.06);
-}
-
-/* Card head */
-.card-head{
-  display: grid;
-  grid-template-columns: 90px 1fr auto;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.tag{
-  font-weight: 800;
-  color:#0f766e;
-  background:#ecfeff;
-  border:1px solid #99f6e4;
-  border-radius: 12px;
-  padding: 8px 12px;
-  justify-self: start;
-}
-.who .name{ font-weight: 800; font-size: 18px; color:#0f172a }
-.who .meta{ font-size: 13px; color:#64748b }
-.pill{
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-weight: 800;
-  background:#e0f2fe;
-  color:#0369a1;
-}
-.pill.done{ background:#dcfce7; color:#15803d }
-
-/* Progress */
-.bar{
-  height: 10px;
-  background:#eef2f7;
-  border-radius: 999px;
-  overflow: hidden;
-  margin: 10px 0 14px;
-}
-.fill{
-  height:100%;
-  background: linear-gradient(90deg,#10b981,#22c55e);
-  transition: width .25s ease;
-}
-
-/* Steps */
-.steps{
-  display:grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 6px;
-  margin-bottom: 14px;
-}
-.step{
-  all: unset;
+.followup-table th,
+.followup-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
   text-align: center;
+}
+
+.pay-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 5px 10px;
   cursor: pointer;
+  border-radius: 4px;
 }
-.step .dot{
-  width: 36px; height: 36px; border-radius: 50%;
-  display: grid; place-items: center;
-  font-weight: 800; margin: 0 auto 4px;
-  background:#e5e7eb; color:#6b7280;
-  transition: transform .12s ease;
-}
-.step.active .dot{
-  background:#10b981; color:#fff; box-shadow:0 0 0 3px #d1fae5 inset;
-}
-.step:hover .dot{ transform: scale(1.05); }
-.step .label{ font-size:12px; color:#6b7280 }
-.step.active .label{ color:#065f46; font-weight:700 }
 
-/* Actions */
-.actions{
-  display:flex;
-  gap:10px;
-  justify-content:flex-end;
-  margin-top: 8px;
-}
-button{
-  border-radius: 10px; padding: 10px 16px; font-weight: 700;
-  border: 1px solid transparent; cursor: pointer; transition: .2s;
-}
-.primary{ background:#16a34a; color:#fff }
-.primary:disabled{ background:#a7f3d0; cursor:not-allowed }
-.ghost{ background:#fff; border-color:#cbd5e1; color:#0f172a }
-.ghost:hover{ background:#f8fafc }
-.danger{ background:#fee2e2; color:#b91c1c; border-color:#fecaca }
-.danger:hover{ background:#fecaca }
-
-/* Small screens */
-@media (max-width: 640px){
-  .card-head{ grid-template-columns: 1fr auto; }
-  .tag{ order:-1; justify-self:start }
+.pay-btn:hover {
+  background-color: #45a049;
 }

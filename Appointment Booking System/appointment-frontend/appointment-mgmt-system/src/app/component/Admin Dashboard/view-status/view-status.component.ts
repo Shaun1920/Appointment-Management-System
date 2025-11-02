@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StatusService } from 'src/app/service/Doctor Service/status.service'; // ✅ make sure this exists or update the path
+import { StatusService } from 'src/app/service/Doctor Service/status.service';
 
 interface ViewStatus {
   doctorId: string;
@@ -26,6 +26,7 @@ export class ViewStatusComponent implements OnInit {
     this.loadStatuses();
   }
 
+  // ✅ Load all doctor statuses first
   loadStatuses(): void {
     this.statusService.getAllStatuses().subscribe({
       next: (list: any[]) => {
@@ -36,8 +37,16 @@ export class ViewStatusComponent implements OnInit {
             currentStatus: inactive ? '--' : (ds.currentStatus || 'Available'),
             accountStatus: ds.accountStatus || 'Inactive',
             upcomingLeave: ds.upcomingLeave || 'N/A',
-            appointmentsToday: ds.appointmentsToday ?? 0
+            appointmentsToday: 0 // initialize to 0
           };
+        });
+
+        // ✅ After mapping, fetch appointment count for each doctor
+        this.viewStatusList.forEach(status => {
+          this.statusService.getAppointmentCount(status.doctorId).subscribe({
+            next: (count) => (status.appointmentsToday = count),
+            error: (err) => console.error(`Failed to load appointments for ${status.doctorId}`, err)
+          });
         });
       },
       error: (err) => {

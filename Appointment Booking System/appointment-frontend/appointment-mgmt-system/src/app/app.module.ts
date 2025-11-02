@@ -12,24 +12,20 @@ import { LoginComponent } from './component/Admin Dashboard/login/login.componen
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
-// import { DoctorStaffSidebarComponent } from './component/Doctor-Staff Dashboard/doctor-staff-sidebar/doctor-staff-sidebar.component';
-import { CalendarComponent } from './Doctor-Staff_Dashboard/calendar/calendar.component';
-// import { ProfileadminComponent } from './profileadmin/profileadmin.component';
+import { CalendarComponent } from './Doctor-Staff_Dashboard/doctor/calendar/calendar.component';
 import { ProfileadminComponent } from './component/Admin Dashboard/profileadmin/profileadmin.component';
 import { AllocationComponent } from './component/Admin Dashboard/allocation/allocation.component';
 import { DoctorDashboardComponent } from './Doctor-Staff_Dashboard/doctor/doctor-dashboard/doctor-dashboard.component';
 import { DoctorLoginComponent } from './Doctor-Staff_Dashboard/doctor/doctor-login/doctor-login.component';
 import { DoctorProfileComponent } from './Doctor-Staff_Dashboard/doctor/doctor-profile/doctor-profile.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-// import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthInterceptor } from './auth-interceptor';
 import { StaffDashboardComponent } from './staff/staff-dashboard/staff-dashboard.component';
 import { StaffProfileComponent } from './staff/staff-profile/staff-profile.component';
-// import { PatientRegistrationComponent } from './staff/patient-registration/patient-registration.component';
 import { PatientRegistrationComponent } from './staff/patient-registration/patient-registration.component';
 import { AppointmentFormComponent } from './staff/appointment-form/appointment-form.component';
 import { AppointmentListComponent } from './component/appointment-list/appointment-list.component';
-import { DoctorStatusComponent } from './doctor-status/doctor-status.component';
+import { DoctorStatusComponent } from './staff/doctor-status/doctor-status.component';
 
 @NgModule({
   imports: [
@@ -56,10 +52,11 @@ import { DoctorStatusComponent } from './doctor-status/doctor-status.component';
 
     //staff
     StaffDashboardComponent,
-     StaffProfileComponent,
-       PatientRegistrationComponent,
-           AppointmentFormComponent,     
-           AppointmentListComponent,
+    StaffProfileComponent,
+    PatientRegistrationComponent,
+    AppointmentFormComponent,     
+    AppointmentListComponent,
+    DoctorStatusComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -69,13 +66,6 @@ import { DoctorStatusComponent } from './doctor-status/doctor-status.component';
   bootstrap: [],
   declarations: [
    
-  
-  
-
-  
-    
-  
-    DoctorStatusComponent
   ]  // Leave empty if AppComponent is standalone
 })
 export class AppModule {}

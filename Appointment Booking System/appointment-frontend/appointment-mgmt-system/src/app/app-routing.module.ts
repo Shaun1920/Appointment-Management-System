@@ -64,7 +64,7 @@ import { AllocationComponent } from './component/Admin Dashboard/allocation/allo
 // Doctor components
 // import { DoctorDashboardComponent } from './component/Doctor-Staff Dashboard/doctor/doctor-dashboard/doctor-dashboard.component';
 import { DoctorDashboardComponent } from './Doctor-Staff_Dashboard/doctor/doctor-dashboard/doctor-dashboard.component';
-import { CalendarComponent } from './Doctor-Staff_Dashboard/calendar/calendar.component';
+import { CalendarComponent } from './Doctor-Staff_Dashboard/doctor/calendar/calendar.component';
 // import { DoctorLoginComponent } from './component/Doctor-Staff Dashboard/doctor/doctor-login/doctor-login.component';
 import { DoctorLoginComponent } from './Doctor-Staff_Dashboard/doctor/doctor-login/doctor-login.component';
 

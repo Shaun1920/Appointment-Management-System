@@ -15,7 +15,7 @@ import java.util.Map;
 public class DoctorStatusController {
 
     private final DoctorStatusService service;
-
+    //private DoctorStatusService doctorStatusService;
     public DoctorStatusController(DoctorStatusService service) { this.service = service; }
 
     // Upsert any fields
@@ -49,5 +49,11 @@ public class DoctorStatusController {
     public ResponseEntity<?> one(@PathVariable String doctorCode) {
         DoctorStatus ds = service.get(doctorCode);
         return ds == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(ds);
+    }
+    
+    // ✅ Get total appointments (not date-filtered)
+    @GetMapping("/appointments/{doctorId}")
+    public long getTotalAppointments(@PathVariable String doctorId) {
+        return service.getTotalAppointments(doctorId);
     }
 }

@@ -3,23 +3,29 @@ package com.appointment.bookingsystem.services;
 
 import com.appointment.bookingsystem.entity.DoctorStatus;
 import com.appointment.bookingsystem.repository.DoctorStatusRepo;
+import com.appointment.bookingsystem.repository.AppointmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class DoctorStatusService {
     private final DoctorStatusRepo repo;
 
-    public DoctorStatusService(DoctorStatusRepo repo) { this.repo = repo; }
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    public DoctorStatusService(DoctorStatusRepo repo) { 
+        this.repo = repo; 
+    }
 
     public DoctorStatus upsert(DoctorStatus payload) {
         DoctorStatus ds = repo.findByDoctorCode(payload.getDoctorCode())
                 .orElseGet(DoctorStatus::new);
         ds.setDoctorCode(payload.getDoctorCode());
-        if (payload.getCurrentStatus() != null)   ds.setCurrentStatus(payload.getCurrentStatus());
-        if (payload.getAccountStatus() != null)   ds.setAccountStatus(payload.getAccountStatus());
-        if (payload.getUpcomingLeave() != null)   ds.setUpcomingLeave(payload.getUpcomingLeave());
+        if (payload.getCurrentStatus() != null) ds.setCurrentStatus(payload.getCurrentStatus());
+        if (payload.getAccountStatus() != null) ds.setAccountStatus(payload.getAccountStatus());
+        if (payload.getUpcomingLeave() != null) ds.setUpcomingLeave(payload.getUpcomingLeave());
         if (payload.getAppointmentsToday() != null) ds.setAppointmentsToday(payload.getAppointmentsToday());
         return repo.save(ds);
     }
@@ -28,7 +34,7 @@ public class DoctorStatusService {
         DoctorStatus ds = repo.findByDoctorCode(code).orElseGet(() -> {
             DoctorStatus n = new DoctorStatus();
             n.setDoctorCode(code);
-            n.setAccountStatus("Active"); // sane default if doctor is online
+            n.setAccountStatus("Active");
             return n;
         });
         ds.setCurrentStatus(availability);
@@ -45,7 +51,16 @@ public class DoctorStatusService {
         return repo.save(ds);
     }
 
-    public List<DoctorStatus> all() { return repo.findAll(); }
+    public List<DoctorStatus> all() { 
+        return repo.findAll(); 
+    }
 
-    public DoctorStatus get(String code) { return repo.findByDoctorCode(code).orElse(null); }
+    public DoctorStatus get(String code) { 
+        return repo.findByDoctorCode(code).orElse(null); 
+    }
+
+    // ✅ Count all appointments for a given doctor (no date filter)
+    public long getTotalAppointments(String doctorId) {
+        return appointmentRepository.countByDoctorId(doctorId);
+    }
 }
