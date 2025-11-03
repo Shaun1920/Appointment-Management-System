@@ -96,7 +96,6 @@
     <p><strong>Email:</strong> {{ p.email }}</p>
   </div>
 </div> -->
-
 <div class="container mt-4">
   <h2 class="text-center mb-4">Patient Registration</h2>
 
@@ -168,14 +167,22 @@
           <button type="button" class="btn btn-secondary" (click)="toggleForm()">Cancel</button>
         </div>
       </form>
+
       <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
       <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
     </div>
   </div>
 
-  <!-- Success / Error Messages -->
-  <!-- <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
-  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div> -->
+  <!-- 🔍 Search Bar -->
+  <div class="search-bar text-center mb-4">
+    <input
+      type="text"
+      class="form-control search-input"
+      [(ngModel)]="searchMobileNo"
+      placeholder="Enter Mobile No. to Search"
+    />
+    <button class="btn btn-outline-primary mt-2" (click)="searchPatientByMobile()">Search</button>
+  </div>
 
   <!-- Registered Patients -->
   <h3 class="mt-4 mb-3 text-center">All Registered Patients</h3>
@@ -187,6 +194,11 @@
       <p><strong>Gender:</strong> {{ p.gender }}</p>
       <p><strong>Phone:</strong> {{ p.mobileNo }}</p>
       <p><strong>Email:</strong> {{ p.email }}</p>
+
+      <div class="card-buttons">
+        <button class="btn btn-sm btn-outline-primary" (click)="editPatient(p)">Edit</button>
+        <button class="btn btn-sm btn-outline-danger" (click)="deletePatient(p.patientCode)">Delete</button>
+      </div>
     </div>
   </div>
 </div>

@@ -6,17 +6,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PatientService {
-  private baseUrl = 'http://localhost:8080/api';
+  private baseUrl = 'http://localhost:8080/api/patients';
 
   constructor(private http: HttpClient) {}
 
-  // 🧩 Register a new patient
   registerPatient(patient: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/patients/register`, patient);
+    return this.http.post(`${this.baseUrl}/register`, patient);
   }
 
-  // 🧩 Get all registered patients (optional)
   getAllPatients(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/patients/all`);
+    return this.http.get<any[]>(this.baseUrl);
+  }
+
+  getPatientByMobile(mobileNo: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/search?mobileNo=${mobileNo}`);
   }
 }
