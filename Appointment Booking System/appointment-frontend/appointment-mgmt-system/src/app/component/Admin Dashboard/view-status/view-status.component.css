@@ -1,85 +1,134 @@
+/* ===== View Status - Consistent Dashboard Theme ===== */
+:host {
+  --first-color: #272343;   /* primary */
+  --second-color: #ffffff;  /* surface */
+  --third-color: #e3f6f5;   /* background */
+  --fourth-color: #bae8e8;  /* accent */
+  --border: #d7eceb;
+  --text-dark: #272343;
+  --muted: #556070;
+
+  display: block;
+  background: linear-gradient(135deg, var(--third-color) 40%, var(--fourth-color) 100%);
+  min-height: 100vh;
+  font-family: "Poppins", "Arial", sans-serif;
+  color: var(--text-dark);
+  padding: 2rem 1rem;
+}
+
+/* ===== Container ===== */
 .status-container {
-  max-width: 950px;
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: var(--second-color);
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 20px rgba(39, 35, 67, 0.12);
   transition: all 0.3s ease;
 }
 
+.status-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(39, 35, 67, 0.18);
+}
+
+/* ===== Title ===== */
 .status-container h2 {
   text-align: center;
-  color: #333;
-  margin-bottom: 1.5rem;
+  color: var(--first-color);
+  margin-bottom: 1.8rem;
   font-size: 1.8rem;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: 0.5px;
 }
 
+/* ===== Table Wrapper ===== */
 .table-container {
   overflow-x: auto;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(39, 35, 67, 0.06);
 }
 
+/* ===== Table ===== */
 .status-table {
   width: 100%;
   border-collapse: collapse;
-  text-align: center;
-  background-color: #fdfdfd;
-  border-radius: 12px;
+  background: var(--second-color);
+  border-radius: 14px;
   overflow: hidden;
 }
 
 .status-table th {
-  background-color: #4f46e5;
-  color: #fff;
+  background-color: var(--first-color);
+  color: var(--second-color);
   padding: 14px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   white-space: nowrap;
+  letter-spacing: 0.4px;
+  font-size: 0.95rem;
 }
 
 .status-table td {
   padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
-  color: #333;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  vertical-align: middle;
 }
 
 .status-table tr:hover {
-  background-color: #f3f4f6;
-  transition: 0.3s ease;
+  background-color: var(--third-color);
+  transition: 0.25s ease;
 }
 
-/* Status color styling */
+/* ===== Status Text Colors ===== */
 .status-available {
   color: #16a34a;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .status-busy {
-  color: #f59e0b;
-  font-weight: 600;
+  color: #eab308;
+  font-weight: 700;
 }
 
 .status-leave {
   color: #dc2626;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-/* 👇 Added muted color for inactive accounts */
 .status-muted {
-  color: #6b7280; /* gray-500 */
-  font-weight: 600;
+  color: #6b7280;
+  font-weight: 700;
 }
 
+/* ===== Mobile Responsive ===== */
 @media (max-width: 768px) {
+  .status-container {
+    padding: 1.2rem;
+  }
+
   .status-table th,
   .status-table td {
     padding: 10px;
     font-size: 0.9rem;
   }
 
+  .status-container h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
   .status-container {
     padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .status-table th,
+  .status-table td {
+    font-size: 0.85rem;
   }
 }

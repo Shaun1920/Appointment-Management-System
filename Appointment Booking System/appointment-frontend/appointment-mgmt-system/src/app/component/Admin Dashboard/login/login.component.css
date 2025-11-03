@@ -1,82 +1,212 @@
-/* Center the form vertically and horizontally */
+/* ================================
+   THEME (same as Doctor login)
+================================== */
+:host {
+  --primary: #272343;
+  --accent: #bae8e8;
+  --surface: #ffffff;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --text-dark: #1f2937;
+  --background: #f7fafc;
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: block;
+  background: var(--background);
+  min-height: 100vh;
+}
+
+/* ================================
+   LAYOUT + BACKGROUND
+   (soft gradient + abstract circles)
+================================== */
 .login-container {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #eef1f5;
-  padding: 15px;
+  min-height: 100vh;
+  padding: 2rem;
+  overflow: hidden;
+
+  /* Base gradient wash */
+  background:
+    radial-gradient(1200px 600px at -10% -10%, #c9f0f0 0%, transparent 60%),
+    radial-gradient(900px 600px at 110% 10%, #dbeafe 0%, transparent 55%),
+    linear-gradient(135deg, #e9f7f7 0%, #f7fafc 55%, #eaf2ff 100%);
 }
 
-/* Card style */
+/* subtle floating circles */
+.login-container::before,
+.login-container::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  opacity: 0.45;
+  filter: blur(0.2px);
+  animation: drift 22s ease-in-out infinite;
+}
+
+.login-container::before {
+  opacity: 0.35;
+  background-image:
+    radial-gradient(220px 220px at 12% 22%, rgba(186, 232, 232, 0.35) 0%, rgba(186, 232, 232, 0) 62%),
+    radial-gradient(280px 280px at 80% 10%, rgba(39, 35, 67, 0.08) 0%, rgba(39, 35, 67, 0) 65%),
+    radial-gradient(340px 340px at 85% 78%, rgba(186, 232, 232, 0.28) 0%, rgba(186, 232, 232, 0) 70%);
+}
+
+.login-container::after {
+  opacity: 0.35;
+  animation-duration: 28s;
+  background-image:
+    radial-gradient(260px 260px at 20% 80%, rgba(39, 35, 67, 0.06) 0%, rgba(39, 35, 67, 0) 65%),
+    radial-gradient(200px 200px at 70% 60%, rgba(186, 232, 232, 0.32) 0%, rgba(186, 232, 232, 0) 60%);
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(0, -12px, 0) scale(1.02); }
+}
+
+/* Optional ultra-subtle grain for depth (pure CSS) */
+.login-container::marker /* { no-op to keep linter calm } */
+.login-container > .grain { display:none; } /* holder if needed */
+
+/* ================================
+   CARD
+================================== */
 .login-card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 380px;
-  padding: 30px 25px;
+  max-width: 420px;
+  background: var(--surface);
+  border-radius: 18px;
+  padding: 2rem;
   box-sizing: border-box;
+
+  /* layered shadow for soft elevation */
+  box-shadow:
+    0 12px 28px rgba(39, 35, 67, 0.18),
+    0 2px 8px rgba(39, 35, 67, 0.06);
+  border: 1px solid var(--border);
+
+  /* optional glass hint */
+  backdrop-filter: saturate(1.1) blur(6px);
 }
 
-/* Title */
+/* ================================
+   TYPOGRAPHY
+================================== */
 h2 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #333;
+  margin-bottom: 1.6rem;
+  font-size: 1.7rem;
+  color: var(--text-dark);
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
 
-/* Labels and inputs */
+/* ================================
+   FORM ELEMENTS
+================================== */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.1rem;
 }
 
 label {
   display: block;
   font-weight: 600;
-  color: #444;
-  margin-bottom: 8px;
+  color: var(--muted);
+  margin-bottom: 6px;
 }
 
 input {
-  width: 90%;
-  padding: 10px;
+  width: 100%;
+  padding: 12px 14px;
   font-size: 15px;
-  border: 1px solid #bbb;
-  border-radius: 6px;
-  transition: border-color 0.3s;
+  color: var(--text-dark);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.05s ease;
+  box-sizing: border-box;
+}
+
+input::placeholder {
+  color: #9aa3b2;
+}
+
+input:hover {
+  border-color: #d7dbe3;
 }
 
 input:focus {
-  border-color: #007bff;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(39, 35, 67, 0.15);
   outline: none;
 }
 
-/* Button */
+/* ================================
+   BUTTON
+================================== */
 .login-btn {
-  width: 90%;
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 10px;
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 6px 16px rgba(39, 35, 67, 0.28);
+  margin-top: 0.2rem;
 }
 
 .login-btn:hover {
-  background-color: #0056b3;
+  background: #1f1c34;
+  transform: translateY(-2px);
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  .login-card {
-    padding: 20px;
-  }
+.login-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(39, 35, 67, 0.25);
+}
 
-  h2 {
-    font-size: 22px;
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ================================
+   RESPONSIVE
+================================== */
+@media (max-width: 540px) {
+  .login-card {
+    padding: 1.6rem;
+    border-radius: 16px;
   }
+  h2 {
+    font-size: 1.45rem;
+    margin-bottom: 1.2rem;
+  }
+}
+
+/* ================================
+   OPTIONAL: ERROR / HELP TEXT
+   (use in template if needed)
+================================== */
+.error-text {
+  color: #dc2626;
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+.muted-text {
+  color: var(--muted);
+  font-size: 0.92rem;
+  text-align: center;
+  margin-top: 0.8rem;
 }

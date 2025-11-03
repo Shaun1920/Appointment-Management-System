@@ -1,108 +1,94 @@
-/* Center the main container */
-.container {
-  max-width: 600px;
-  margin: 40px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 30px 40px;
-}
-
-/* Heading style */
-h2 {
-  text-align: center;
-  color: #333;
-  font-weight: 600;
-  margin-bottom: 25px;
-}
-
-/* Form appearance */
-form {
+/* ===== MODAL POPUP STYLING ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
-  flex-direction: column;
-  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-/* Label styling */
-label {
-  font-weight: 500;
-  color: #444;
-  margin-bottom: 6px;
+.modal-content {
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  width: 400px;
+  max-width: 90%;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Input and select box */
-.form-control {
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  padding: 10px 12px;
-  font-size: 15px;
-  transition: all 0.2s ease-in-out;
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.form-control:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
-}
-
-/* Register button */
-button[type="submit"] {
-  background-color: #28a745;
-  color: white;
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
   border: none;
+  padding: 8px 16px;
   border-radius: 8px;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: 500;
   cursor: pointer;
   transition: 0.3s;
 }
 
-button[type="submit"]:hover {
-  background-color: #218838;
+.btn-secondary:hover {
+  background-color: #5a6268;
 }
 
-/* Success and error alerts */
-.alert {
-  text-align: center;
-  border-radius: 8px;
-  padding: 10px;
-  font-weight: 500;
+/* Fade-in effect */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Optional – Match your screenshots' card layout for All Patients section */
+/* ===== PATIENT CARD GRID ===== */
+.patient-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
 .patient-card {
-  background: #fff;
+  background: #fdfdfd;
   border-radius: 10px;
-  padding: 15px 20px;
-  margin-top: 20px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.patient-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
 .patient-card h4 {
   color: #007bff;
   font-weight: 600;
+  margin-bottom: 10px;
 }
 
 .patient-card p {
-  margin: 5px 0;
+  margin: 4px 0;
   color: #555;
-}
-
-.patient-card button {
-  margin-right: 10px;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
   font-size: 14px;
-  cursor: pointer;
 }
 
-.patient-card .edit-btn {
-  background-color: #ffc107;
-  color: #fff;
-}
-
-.patient-card .delete-btn {
-  background-color: #dc3545;
-  color: #fff;
+/* Error messages */
+.error {
+  color: #dc3545;
+  font-size: 13px;
+  margin-top: 3px;
 }

@@ -79,9 +79,10 @@ import { StaffDashboardComponent } from './staff/staff-dashboard/staff-dashboard
 import { staffAuthGuard } from './staff-auth-guard.guard';
 // import { AppointmentListComponent } from './component/appointment-list/appointment-list.component';
 import { AppointmentListComponent } from './component/appointment-list/appointment-list.component';
+import { LandingComponent } from './LandingPage/LandingPage.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'Access-Point/Appointment-Booking-System/auth-admin/login', pathMatch: 'full' },
+  { path: '', component: LandingComponent, pathMatch: 'full' },
 
   // --- Admin routes ---
   { path: 'Access-Point/Appointment-Booking-System/auth-admin/login', component: LoginComponent },
@@ -181,7 +182,7 @@ const routes: Routes = [
 
  
   // --- Fallback ---
-  { path: '**', redirectTo: 'Access-Point/Appointment-Booking-System/auth-admin/login' }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

@@ -2,42 +2,6 @@
   <div class="avatar">
     <img src="https://cdn-icons-png.flaticon.com/512/387/387561.png" alt="Doctor Avatar">
   </div>
-  <!-- 🌟 Account & Availability Panel
-<div class="account-panel" *ngIf="doctor">
-  <div class="panel-row">
-    <div class="panel-item">
-      <label>Account Status</label>
-      <div
-        class="status-pill"
-        [ngClass]="{ active: accountStatus === 'Active', inactive: accountStatus === 'Inactive' }"
-      >
-        {{ accountStatus }}
-      </div>
-    </div>
-
-    <div class="panel-item">
-      <label>Current Status</label>
-      <div class="inline">
-        <select [(ngModel)]="availability">
-          <option *ngFor="let s of availabilityOptions" [value]="s">{{ s }}</option>
-        </select>
-        <button class="mini-btn" (click)="updateAvailability()">Update</button>
-      </div>
-    </div>
-
-    <div class="panel-item">
-      <label>Shift</label>
-      <span *ngIf="!loadingAllocations">{{ latestShift || '—' }}</span>
-      <span *ngIf="loadingAllocations">Loading...</span>
-    </div>
-
-    <div class="panel-item">
-      <label>Room No.</label>
-      <span *ngIf="!loadingAllocations">{{ latestRoom || '—' }}</span>
-      <span *ngIf="loadingAllocations">Loading...</span>
-    </div>
-  </div>
-</div> -->
   <h2>Doctor Profile</h2>
 
   <div class="action-buttons">

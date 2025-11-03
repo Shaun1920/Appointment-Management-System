@@ -33,7 +33,7 @@ export class StaffComponent implements OnInit {
   }
 
   addStaff() {
-    const contactPattern = /^[789]\d{9}$/;
+    const contactPattern = /^(7|8|9)[0-9]{9}$/;
     if (!contactPattern.test(this.newStaff.contactNo)) {
       alert('Contact number must be 10 digits and start with 7, 8, or 9.');
       return;

@@ -1,80 +1,130 @@
-.admin-container {
-  padding: 30px;
-  background-color: #f7f8fa;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  margin: 40px auto;
-  width: 95%;
+/* ===== Admin Appointments (Consistent Dashboard Theme) ===== */
+:host {
+  --first-color: #272343;   /* primary */
+  --second-color: #ffffff;  /* surface */
+  --third-color: #e3f6f5;   /* canvas */
+  --fourth-color: #bae8e8;  /* accent */
+  --border: #d7eceb;
+  --text-dark: #272343;
+  --text-on-first: #ffffff;
+  --muted: #556070;
+
+  display: block;
+  background: linear-gradient(135deg, var(--third-color) 40%, var(--fourth-color) 100%);
+  min-height: 100vh;
+  font-family: "Poppins", "Arial", sans-serif;
+  color: var(--text-dark);
 }
 
+/* Container */
+.admin-container {
+  width: 95%;
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 28px;
+  background: var(--second-color);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(39, 35, 67, .12);
+}
+
+/* Title & divider */
 h2 {
   text-align: center;
-  color: #333;
-  font-weight: 600;
+  color: var(--first-color);
+  font-weight: 800;
+  letter-spacing: .3px;
+  margin: 0 0 8px;
 }
-
 hr {
-  margin: 15px 0 25px;
+  margin: 12px 0 22px;
   border: none;
-  border-top: 2px solid #ccc;
+  height: 1px;
+  background: var(--border);
 }
 
+/* States */
 .loading, .no-data {
   text-align: center;
-  color: #777;
-  font-size: 1.1em;
-  margin-top: 20px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  margin-top: 18px;
 }
 
+/* Table */
 .appointment-table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  border-radius: 10px;
+  background: var(--second-color);
+  border: 1px solid var(--border);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 2px 10px rgba(39, 35, 67, .08);
+}
+
+.appointment-table th,
+.appointment-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: .95rem;
 }
 
 .appointment-table th {
-  background: #007bff;
-  color: white;
-  text-align: left;
-  padding: 12px;
-  font-size: 0.9rem;
-}
-
-.appointment-table td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  color: #333;
+  background: var(--first-color);
+  color: var(--text-on-first);
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-transform: uppercase;
 }
 
 .appointment-table tr:hover {
-  background-color: #f1f1f1;
+  background: var(--third-color);
+  transition: background .2s ease;
 }
 
+/* Buttons */
 button {
   border: none;
-  border-radius: 6px;
-  padding: 6px 10px;
-  margin-right: 5px;
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-right: 6px;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: 700;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
 }
 
+/* Edit = accent pill */
 .edit-btn {
-  background: #ffc107;
-  color: #222;
+  background: var(--fourth-color);
+  color: var(--first-color);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(39, 35, 67, .1);
 }
-
-.delete-btn {
-  background: #dc3545;
-  color: #fff;
-}
-
 .edit-btn:hover {
-  background: #e0a800;
+  background: var(--first-color);
+  color: var(--text-on-first);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(39, 35, 67, .2);
 }
 
+/* Delete = danger */
+.delete-btn {
+  background: #ef4444;
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(239, 68, 68, .2);
+}
 .delete-btn:hover {
-  background: #c82333;
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(185, 28, 28, .3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-container { padding: 20px; }
+  .appointment-table th, .appointment-table td {
+    padding: 10px;
+    font-size: .9rem;
+  }
 }

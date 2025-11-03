@@ -33,7 +33,7 @@ export class DoctorsComponent implements OnInit {
   }
 
   addDoctor() {
-    const contactPattern = /^[789]\d{9}$/;
+    const contactPattern = /^(7|8|9)[0-9]{9}$/;
     if (!contactPattern.test(this.newDoctor.contactNo)) {
       alert('Contact number must be 10 digits and start with 7, 8, or 9.');
       return;

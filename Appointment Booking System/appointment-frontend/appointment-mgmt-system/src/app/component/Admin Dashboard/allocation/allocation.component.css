@@ -1,92 +1,157 @@
+/* ========= Allocation Component (Consistent Dashboard Theme) ========= */
+:host {
+  --first-color: #272343;   /* Primary – deep navy */
+  --second-color: #ffffff;  /* Surface – white */
+  --third-color: #e3f6f5;   /* Canvas – pale aqua */
+  --fourth-color: #bae8e8;  /* Accent – soft teal */
+  --text-dark: #272343;
+  --text-on-first: #ffffff;
+  --muted: #556070;
+  --border: #d7eceb;
+
+  display: block;
+  background: var(--third-color);
+  color: var(--text-dark);
+  font-family: "Poppins", "Arial", sans-serif;
+  min-height: 100vh;
+}
+
+/* ===================== Container ===================== */
 .allocation-container {
-  padding: 20px;
-  background-color: #E1EEBC; /* soft background */
+  padding: 24px;
+  background: linear-gradient(135deg, var(--third-color) 40%, var(--fourth-color) 100%);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(39, 35, 67, 0.08);
+  min-height: 100vh;
+}
+
+/* ===================== Title & Add Button ===================== */
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--first-color);
+  margin-bottom: 18px;
 }
 
 .btn-add {
-  padding: 8px 16px;
-  margin-bottom: 20px;
-  background-color: #328E6E; /* deep green for primary button */
-  color: white;
+  background: var(--first-color);
+  color: var(--text-on-first);
   border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(39, 35, 67, 0.15);
+  transition: background 0.25s ease, transform 0.2s ease;
 }
-
 .btn-add:hover {
-  background-color: #67AE6E; /* lighter hover effect */
+  background: #1f1c34;
+  transform: translateY(-2px);
 }
 
+/* ===================== Table ===================== */
 .allocation-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #fff;
+  background: var(--second-color);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(39, 35, 67, 0.08);
 }
 
-.allocation-table th, .allocation-table td {
-  border: 1px solid #90C67C;
-  padding: 8px;
+.allocation-table th,
+.allocation-table td {
+  padding: 12px 15px;
   text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.95rem;
 }
 
 .allocation-table th {
-  background-color: #90C67C; /* header background */
-  color: #1d3b2b; /* dark contrast for text */
+  background: var(--first-color);
+  color: var(--text-on-first);
+  font-weight: 600;
 }
 
+.allocation-table tr:hover {
+  background: var(--third-color);
+  transition: background 0.2s ease;
+}
+
+/* ===================== Modal Overlay ===================== */
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(50, 142, 110, 0.5); /* translucent overlay */
+  inset: 0;
+  background: rgba(39, 35, 67, 0.45);
+  backdrop-filter: blur(3px);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
+/* ===================== Modal Content ===================== */
 .modal-content {
-  background-color: #f9fff2;
-  padding: 20px;
-  width: 400px;
-  border-radius: 8px;
+  background: var(--second-color);
+  padding: 28px 24px;
+  width: 90%;
+  max-width: 420px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(39, 35, 67, 0.2);
   position: relative;
-  box-shadow: 0 4px 10px rgba(50, 142, 110, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content h3 {
+  color: var(--first-color);
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
 }
 
 .modal-content form {
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
 .modal-content label {
-  margin-top: 10px;
-  color: #328E6E;
+  color: var(--muted);
   font-weight: 600;
+  font-size: 0.95rem;
 }
 
-.modal-content input, .modal-content select {
-  padding: 6px;
-  margin-top: 5px;
-  border: 1px solid #90C67C;
-  border-radius: 4px;
+.modal-content input,
+.modal-content select {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--second-color);
+  color: var(--text-dark);
+  transition: border 0.2s, box-shadow 0.2s;
+}
+.modal-content input:focus,
+.modal-content select:focus {
+  border-color: var(--fourth-color);
+  box-shadow: 0 0 6px rgba(39, 35, 67, 0.15);
 }
 
+/* ===================== Buttons ===================== */
 .btn-save {
-  margin-top: 15px;
-  padding: 8px;
-  background-color: #67AE6E;
-  color: white;
+  margin-top: 16px;
+  padding: 10px;
+  background: #22c55e;
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  transition: background 0.25s ease, transform 0.2s ease;
 }
-
 .btn-save:hover {
-  background-color: #328E6E;
+  background: #15803d;
+  transform: translateY(-2px);
 }
 
 .close {
@@ -95,10 +160,89 @@
   right: 15px;
   font-size: 24px;
   cursor: pointer;
-  color: #328E6E;
-  transition: color 0.3s ease;
+  color: var(--first-color);
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.close:hover {
+  color: var(--fourth-color);
+  transform: scale(1.1);
 }
 
-.close:hover {
-  color: #90C67C;
+/* ===================== Action Buttons (Edit / Delete) ===================== */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ✏️ Edit Button */
+.edit-btn {
+  background: var(--fourth-color);
+  color: var(--first-color);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 4px rgba(39, 35, 67, 0.1);
+}
+.edit-btn:hover {
+  background: var(--first-color);
+  color: var(--text-on-first);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(39, 35, 67, 0.2);
+}
+
+/* 🗑️ Delete Button */
+.delete-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 4px rgba(39, 35, 67, 0.1);
+}
+.delete-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(185, 28, 28, 0.3);
+}
+
+/* Disabled state (optional if you disable them programmatically) */
+.edit-btn:disabled,
+.delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ===================== Animation ===================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width: 700px) {
+  .allocation-table th,
+  .allocation-table td {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
 }
