@@ -14,6 +14,7 @@ import { StaffService,Staff } from 'src/app/service/Admin Service/Admin-Staff Se
 export class StaffComponent implements OnInit {
   staffList: Staff[] = [];
   showForm = false;
+  errorMessage = '';
   newStaff: Staff = { name: '', contactNo: '', role: '', dateOfBirth: '' };
 
   constructor(private staffService: StaffService) {}
@@ -30,18 +31,38 @@ export class StaffComponent implements OnInit {
   closeForm() {
     this.showForm = false;
     this.newStaff = { name: '', contactNo: '', role: '', dateOfBirth: '' };
+    this.errorMessage = '';
   }
 
-  addStaff() {
+  // addStaff() {
+  //   const contactPattern = /^(7|8|9)[0-9]{9}$/;
+  //   if (!contactPattern.test(this.newStaff.contactNo)) {
+  //     alert('Contact number must be 10 digits and start with 7, 8, or 9.');
+  //     return;
+  //   }
+
+  //   this.staffService.addStaff(this.newStaff).subscribe(() => {
+  //     this.loadStaff();
+  //     this.closeForm();
+  //   });
+  // }
+
+    addStaff() {
     const contactPattern = /^(7|8|9)[0-9]{9}$/;
     if (!contactPattern.test(this.newStaff.contactNo)) {
-      alert('Contact number must be 10 digits and start with 7, 8, or 9.');
+      this.errorMessage = 'Contact number must be 10 digits and start with 7, 8, or 9.';
       return;
     }
 
-    this.staffService.addStaff(this.newStaff).subscribe(() => {
-      this.loadStaff();
-      this.closeForm();
+    this.staffService.addStaff(this.newStaff).subscribe({
+      next: () => {
+        this.loadStaff();
+        this.closeForm();
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        this.errorMessage = err.message; // e.g., "Contact number already exists..."
+      }
     });
   }
 

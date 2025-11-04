@@ -1,9 +1,18 @@
 package com.appointment.bookingsystem.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "patients")
+//@Table(name = "patients")
+@Table(
+	    name = "patients",
+	    uniqueConstraints = {
+//	        @UniqueConstraint(name = "uk_doctor_email", columnNames = "email"),
+	        @UniqueConstraint(name = "uk_patients_contact", columnNames = "mobileNo")
+	    }
+	)
 public class Patient {
 
     @Id
@@ -16,6 +25,9 @@ public class Patient {
     private String name;
     private String dateOfBirth;
     private String gender;
+    @NotBlank
+    @Pattern(regexp = "^(7|8|9)[0-9]{9}$", message = "Contact number must be 10 digits")
+    @Column(nullable = false, unique = true, length = 20)
     private String mobileNo;
     private String email;
 

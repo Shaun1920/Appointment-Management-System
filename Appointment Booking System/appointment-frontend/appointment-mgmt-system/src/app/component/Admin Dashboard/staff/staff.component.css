@@ -207,6 +207,15 @@ tr:hover {
 .approve-btn:hover { background: #15803d; transform: translateY(-2px); }
 .reject-btn:hover  { background: #b91c1c; transform: translateY(-2px); }
 
+.error-message {
+  background-color: #ffe0e0;
+  color: #b00020;
+  border: 1px solid #b00020;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  text-align: center;
+}
 /* ===================== Animations ===================== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translate(-50%, -60%); }

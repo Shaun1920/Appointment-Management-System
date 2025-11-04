@@ -19,9 +19,21 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
 
+//    @PostMapping("/add")
+//    public Doctor addDoctor(@RequestBody Doctor doctor) {
+//        return doctorService.addDoctor(doctor);
+//    }
     @PostMapping("/add")
-    public Doctor addDoctor(@RequestBody Doctor doctor) {
-        return doctorService.addDoctor(doctor);
+    public ResponseEntity<?> addDoctor(@RequestBody Doctor doctor) {
+        try {
+            Doctor savedDoctor = doctorService.addDoctor(doctor);
+            return ResponseEntity.ok(savedDoctor);
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            // Custom message for duplicate contact number
+            return ResponseEntity.badRequest().body("Contact number already exists. Please use a different number.");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("An unexpected error occurred.");
+        }
     }
 
     @GetMapping("/all")

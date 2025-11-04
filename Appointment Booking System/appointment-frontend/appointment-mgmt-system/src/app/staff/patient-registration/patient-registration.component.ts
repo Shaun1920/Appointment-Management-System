@@ -32,7 +32,7 @@ export class PatientRegistrationComponent implements OnInit {
   // ✅ For search
   searchMobileNo: string = '';
 
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
     this.loadAllPatients();
@@ -80,6 +80,19 @@ export class PatientRegistrationComponent implements OnInit {
       return;
     }
 
+    // this.patientService.registerPatient(this.patient).subscribe({
+    //   next: (response: any) => {
+    //     this.successMessage = `Patient Registered Successfully! ID: ${response.patientCode}`;
+    //     this.errorMessage = '';
+    //     this.patients.push(response);
+    //     form.resetForm();
+    //     this.showForm = false;
+    //   },
+    //   error: () => {
+    //     this.errorMessage = 'Error registering patient.';
+    //     this.successMessage = '';
+    //   }
+    // });
     this.patientService.registerPatient(this.patient).subscribe({
       next: (response: any) => {
         this.successMessage = `Patient Registered Successfully! ID: ${response.patientCode}`;
@@ -88,8 +101,8 @@ export class PatientRegistrationComponent implements OnInit {
         form.resetForm();
         this.showForm = false;
       },
-      error: () => {
-        this.errorMessage = 'Error registering patient.';
+      error: (err: Error) => {
+        this.errorMessage = err.message; // e.g., "Mobile number already exists..."
         this.successMessage = '';
       }
     });

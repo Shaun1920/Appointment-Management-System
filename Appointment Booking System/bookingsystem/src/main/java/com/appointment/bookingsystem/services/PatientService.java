@@ -5,6 +5,7 @@ import com.appointment.bookingsystem.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,5 +25,9 @@ public class PatientService {
     // ✅ Search patient by mobile number
     public Optional<Patient> getPatientByMobile(String mobileNo) {
         return patientRepository.findByMobileNo(mobileNo);
+    }
+    
+    public List<Patient> getAll() {
+        return patientRepository.findAll();
     }
 }

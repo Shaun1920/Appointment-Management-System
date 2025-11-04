@@ -32,18 +32,36 @@ export class DoctorsComponent implements OnInit {
     this.newDoctor = { doctorName: '', specialization: '', contactNo: '', role: '', dateOfBirth: '' };
   }
 
-  addDoctor() {
-    const contactPattern = /^(7|8|9)[0-9]{9}$/;
-    if (!contactPattern.test(this.newDoctor.contactNo)) {
-      alert('Contact number must be 10 digits and start with 7, 8, or 9.');
-      return;
-    }
+  // addDoctor() {
+  //   const contactPattern = /^(7|8|9)[0-9]{9}$/;
+  //   if (!contactPattern.test(this.newDoctor.contactNo)) {
+  //     alert('Contact number must be 10 digits and start with 7, 8, or 9.');
+  //     return;
+  //   }
 
-    this.doctorService.addDoctor(this.newDoctor).subscribe(() => {
+  //   this.doctorService.addDoctor(this.newDoctor).subscribe(() => {
+  //     this.loadDoctors();
+  //     this.closeForm();
+  //   });
+  // }
+
+  addDoctor() {
+  const contactPattern = /^(7|8|9)[0-9]{9}$/;
+  if (!contactPattern.test(this.newDoctor.contactNo)) {
+    alert('Contact number must be 10 digits and start with 7, 8, or 9.');
+    return;
+  }
+
+  this.doctorService.addDoctor(this.newDoctor).subscribe({
+    next: () => {
       this.loadDoctors();
       this.closeForm();
-    });
-  }
+    },
+    error: (err) => {
+      alert(err.message); // show backend message to user
+    }
+  });
+}
 
   approveDoctor(doctor: Doctor) {
     this.doctorService.updateStatus(doctor.doctorId!, 'Activated').subscribe(() => this.loadDoctors());

@@ -53,7 +53,8 @@
           <td>{{ doctor.specialization }}</td>
           <td>{{ doctor.contactNo }}</td>
           <td>{{ doctor.role }}</td>
-          <td>{{ doctor.password }}</td>
+          <td>{{ doctor.password? '*********' :'-' }}</td>
+           <!-- <td>{{doctor.password}}</td> -->
           <td>
             <span class="status" [class.approved]="doctor.status === 'Activated'" [class.rejected]="doctor.status === 'Deactivated'">{{ doctor.status }}</span>
           </td>

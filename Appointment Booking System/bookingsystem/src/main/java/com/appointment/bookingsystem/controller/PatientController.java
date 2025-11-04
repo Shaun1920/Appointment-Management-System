@@ -3,6 +3,7 @@ package com.appointment.bookingsystem.controller;
 import com.appointment.bookingsystem.entity.Patient;
 import com.appointment.bookingsystem.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,25 @@ public class PatientController {
     private PatientService patientService;
 
     // ✅ Register patient
+//    @PostMapping("/register")
+//    public Patient registerPatient(@RequestBody Patient patient) {
+//        return patientService.registerPatient(patient);
+//    }
+    
     @PostMapping("/register")
-    public Patient registerPatient(@RequestBody Patient patient) {
-        return patientService.registerPatient(patient);
+    public ResponseEntity<?> registerPatient(@RequestBody Patient patient) {
+        try {
+            // Pre-check for nicer UX (still keep the catch below for race conditions)
+            if (patientService.getPatientByMobile(patient.getMobileNo()).isPresent()) {
+                return ResponseEntity.status(409).body("Mobile number already exists. Please use a different number.");
+            }
+            Patient saved = patientService.registerPatient(patient);
+            return ResponseEntity.ok(saved);
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.badRequest().body("Mobile number already exists. Please use a different number.");
+        } catch (Exception ex) {
+            return ResponseEntity.internalServerError().body("An unexpected error occurred.");
+        }
     }
 
     // ✅ Search patient by mobile number
@@ -33,5 +50,10 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("No patient found with mobile number: " + mobileNo);
         }
+    }
+    
+    @GetMapping("/all")
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(patientService.getAll());
     }
 }

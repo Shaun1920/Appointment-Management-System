@@ -1,3 +1,32 @@
+<!-- <div class="staff-container">
+  <h2 class="title">Staff List</h2>
+  <button class="add-btn" (click)="openForm()">+ Add Staff</button>
+
+  <div *ngIf="showForm">
+    <div class="form-overlay" (click)="closeForm()"></div>
+    <div class="form-popup">
+      <h3>Add Staff</h3>
+      <form (ngSubmit)="addStaff()" class="staff-form">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="newStaff.name" name="name" required />
+
+        <label>Date of Birth</label>
+        <input type="date" [(ngModel)]="newStaff.dateOfBirth" name="dateOfBirth" required />
+
+        <label>Contact Number</label>
+        <input type="text" [(ngModel)]="newStaff.contactNo" name="contactNo" required />
+
+        <label>Role</label>
+        <input type="text" [(ngModel)]="newStaff.role" name="role" required />
+
+        <div class="form-actions">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" (click)="closeForm()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div> -->
+
 <div class="staff-container">
   <h2 class="title">Staff List</h2>
   <button class="add-btn" (click)="openForm()">+ Add Staff</button>
@@ -6,6 +35,11 @@
     <div class="form-overlay" (click)="closeForm()"></div>
     <div class="form-popup">
       <h3>Add Staff</h3>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
       <form (ngSubmit)="addStaff()" class="staff-form">
         <label>Name</label>
         <input type="text" [(ngModel)]="newStaff.name" name="name" required />
@@ -48,7 +82,7 @@
           <td>{{ staff.dateOfBirth }}</td>
           <td>{{ staff.contactNo }}</td>
           <td>{{ staff.role }}</td>
-          <td>{{ staff.password }}</td>
+          <td>{{ staff.password? '*********': '-' }}</td>
           <td>
             <span class="status" [class.approved]="staff.status === 'Activated'" [class.rejected]="staff.status === 'Deactivated'">{{ staff.status }}</span>
           </td>
