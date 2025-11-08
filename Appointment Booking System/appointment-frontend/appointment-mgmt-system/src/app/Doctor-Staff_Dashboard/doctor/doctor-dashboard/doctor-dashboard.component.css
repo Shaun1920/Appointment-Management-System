@@ -269,3 +269,103 @@ main.content.shifted{ margin-left:260px; }
   display: flex;
   gap: 6px;
 }
+
+/* 🌟 Search Bar Styling */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+  padding: 10px 15px;
+  background: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.4);
+}
+
+.search-bar button {
+  padding: 10px 18px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.search-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.search-btn:hover {
+  background-color: #0056b3;
+}
+
+.clear-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.clear-btn:hover {
+  background-color: #c62828;
+}
+
+/* 🌟 Highlight Emergency Appointments */
+.emergency-appointment {
+  border-left: 6px solid #ff3b3b !important;
+  background: #ffe6e6 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+  animation: pulseEmergency 1.5s infinite;
+}
+
+/* Subtle pulsing glow for emergency cases */
+@keyframes pulseEmergency {
+  0% {
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(255, 0, 0, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 8px rgba(255, 0, 0, 0.3);
+  }
+}
+
+/* Optional: add slight text emphasis */
+.emergency-appointment .pname,
+.emergency-appointment .pid,
+.emergency-appointment .datetime {
+  color: #b30000;
+  font-weight: 600;
+}
+
+
+/* 🌟 After visiting an emergency appointment, revert to normal look */
+.normal-appointment {
+  border-left: 4px solid var(--fourth-color) !important;
+  background: var(--second-color) !important;
+  box-shadow: 0 1px 6px rgba(39, 35, 67, 0.06) !important;
+  animation: none !important;
+  color: var(--text-dark);
+}
+
+.normal-appointment .pname,
+.normal-appointment .pid,
+.normal-appointment .datetime {
+  color: var(--text-dark);
+  font-weight: 500;
+}

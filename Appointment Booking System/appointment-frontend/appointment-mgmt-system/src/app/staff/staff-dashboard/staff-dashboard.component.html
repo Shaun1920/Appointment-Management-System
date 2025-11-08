@@ -16,6 +16,7 @@
         <button (click)="viewDoctorStatus()">View Doctor Status</button>
         <button (click)="viewTrack()">Track Appointment</button>
         <button (click)="viewRegistration()">Patient Registration</button>
+        <button (click)="viewCalendar()">Follow-Up Calendar</button>
         <button (click)="viewProfile()">Profile</button>
         <button class="logout-btn" (click)="logout()">Logout</button>
       </nav>
@@ -43,6 +44,11 @@
       <div *ngIf="currentView === 'registration'">
         <app-patient-registration></app-patient-registration>
       </div>
+
+      <div *ngIf="currentView === 'calendar'">
+  <app-followup-calendar></app-followup-calendar>
+</div>
+
 
       <!-- Profile -->
       <div *ngIf="currentView === 'profile'">

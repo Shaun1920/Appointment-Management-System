@@ -1,0 +1,26 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <button (click)="prevMonth()">←</button>
+    <h3>{{ currentYear }} - {{ currentDate.toLocaleString('default', { month: 'long' }) }}</h3>
+    <button (click)="nextMonth()">→</button>
+  </div>
+
+  <div class="calendar-grid">
+    <div class="day-name" *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+      {{ day }}
+    </div>
+
+    <div
+      *ngFor="let day of daysInMonth"
+      class="day-cell"
+      [class.today]="isToday(day.date)"
+      [class.empty]="day.day === 0"
+    >
+      <div *ngIf="day.day !== 0" class="day-number">{{ day.day }}</div>
+
+      <div class="followup" *ngFor="let f of day.followups">
+        <span class="patient-id">🩺 {{ f.patientId }}</span>
+      </div>
+    </div>
+  </div>
+</div>

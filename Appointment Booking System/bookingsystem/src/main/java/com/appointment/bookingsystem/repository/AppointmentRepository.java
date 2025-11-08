@@ -16,5 +16,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     long countByDoctorIdAndSlot(String doctorId, String slot);
 
     long countByDoctorId(String doctorId);
+    List<Appointment> findByPatientId(String patientId);
+
 }
     

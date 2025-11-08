@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+// import { Appointment } from './appointment.service';
+import { Appointment } from '../model/Appointment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +52,7 @@ export class DoctorDashboardService {
   getFollowupsByAppointment(appointmentId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/visitfollowup/appointment/${appointmentId}`);
   }
+    searchByPatientId(patientId: string): Observable<Appointment[]> {
+      return this.http.get<Appointment[]>(`${this.baseUrl}/search/${patientId}`);
+    }
 }

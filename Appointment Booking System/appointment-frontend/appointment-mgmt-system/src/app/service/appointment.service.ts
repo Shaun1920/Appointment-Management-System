@@ -47,4 +47,8 @@ export class AppointmentService {
   getAppointmentById(id: number): Observable<Appointment> {
     return this.http.get<Appointment>(`${this.apiUrl}/${id}`);
   }
+
+  searchByPatientId(patientId: string): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.apiUrl}/search/${patientId}`);
+  }
 }

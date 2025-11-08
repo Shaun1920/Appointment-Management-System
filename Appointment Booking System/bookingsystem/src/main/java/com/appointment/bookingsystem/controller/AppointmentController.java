@@ -50,4 +50,16 @@ public class AppointmentController {
     public List<Map<String, Object>> getDoctorSlotStatus() {
         return service.getDoctorSlotStatus();
     }
+    
+ // 🔍 Get appointments by patient ID
+    @GetMapping("/patient/{patientId}")
+    public List<Appointment> getAppointmentsByPatientId(@PathVariable String patientId) {
+        return service.getAppointmentsByPatientId(patientId);
+    }
+
+    @GetMapping("/search/{patientId}")
+    public List<Appointment> searchByPatientId(@PathVariable String patientId) {
+        return service.findByPatientId(patientId);
+    }
+
 }

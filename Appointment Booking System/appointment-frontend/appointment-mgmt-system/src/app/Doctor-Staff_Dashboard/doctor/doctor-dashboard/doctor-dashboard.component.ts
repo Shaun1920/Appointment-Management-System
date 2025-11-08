@@ -8,8 +8,10 @@ import { DoctorProfileService, DoctorProfile } from 'src/app/service/Doctor Serv
 import { StatusService } from 'src/app/service/Doctor Service/status.service';
 import { DoctorAllocationService, Allocation } from 'src/app/service/Doctor Service/doctor-allocation.service';
 import { DoctorDashboardService } from 'src/app/service/doctor-dashboard.service';
-import { Appointment } from 'src/app/model/Appointment.model';
+// import { Appointment } from 'src/app/model/Appointment.model';
 import { CalendarComponent } from "../calendar/calendar.component";
+import { AppointmentService, Appointment } from 'src/app/service/appointment.service';
+
 
 @Component({
   selector: 'app-doctor-dashboard',
@@ -42,13 +44,15 @@ export class DoctorDashboardComponent implements OnInit {
   // ✅ New variables for follow-up calendar
   selectedDate: string = '';
   showCalendarFor: string | null = null;
-
+searchPatientId: string = '';
   constructor(
     private router: Router,
     private doctorService: DoctorProfileService,
     private statusService: StatusService,
     private doctorAllocationService: DoctorAllocationService,
-    private dashboardService: DoctorDashboardService
+    private dashboardService: DoctorDashboardService,
+    private appointmentService: AppointmentService
+
   ) {}
 
   ngOnInit(): void {
@@ -100,8 +104,11 @@ export class DoctorDashboardComponent implements OnInit {
         this.doctorName = 'Unknown';
       }
     });
+
+    
   }
 
+  
   // ✅ Load doctor allocations
   loadAllocations(doctorCode: string): void {
     this.loadingAllocations = true;
@@ -122,27 +129,65 @@ export class DoctorDashboardComponent implements OnInit {
     });
   }
 
-  // ✅ Load appointments for doctor
-  loadAppointments(): void {
-    if (!this.doctorId) return;
-    this.loading = true;
 
-    this.dashboardService.getAppointments(this.doctorId).subscribe({
-      next: (data: Appointment[]) => {
-        this.appointments = data.map(a => ({
-          ...a,
-          visited: false,
-          followupDate: ''
-        }));
-        this.filteredAppointments = [...this.appointments];
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading appointments:', err);
-        this.loading = false;
+// ✅ Load appointments for doctor — prioritize emergencies (no date/time sorting)
+loadAppointments(): void {
+  if (!this.doctorId) return;
+  this.loading = true;
+
+  this.dashboardService.getAppointments(this.doctorId).subscribe({
+    next: (data: Appointment[]) => {
+      // Map and sort — emergency first
+      this.appointments = data
+        .map(a => ({ ...a, visited: false, followupDate: '' }))
+        .sort((a, b) => {
+          if (a.type === 'emergency' && b.type !== 'emergency') return -1;
+          if (a.type !== 'emergency' && b.type === 'emergency') return 1;
+          return 0; // keep others in same order
+        });
+
+      // ✅ Update doctor status automatically if emergency found
+      const hasEmergency = this.appointments.some(a => a.type === 'emergency');
+      if (hasEmergency) {
+        this.availability = 'Emergency Ward';
+        this.updateAvailability();
       }
-    });
+
+      this.filteredAppointments = [...this.appointments];
+      this.loading = false;
+    },
+    error: (err) => {
+      console.error('Error loading appointments:', err);
+      this.loading = false;
+    }
+  });
+}
+
+searchAppointments() {
+  const id = this.searchPatientId.trim();
+
+  if (!id) {
+    alert('Please enter a patient ID');
+    return;
   }
+
+  this.appointmentService.searchByPatientId(id).subscribe({
+    next: (data: Appointment[]) => {
+      this.appointments = data;
+    },
+    error: (err: any) => {
+      console.error('Search failed:', err);
+      alert('No appointment found for this Patient ID');
+    }
+  });
+}
+
+clearSearch() {
+  this.searchPatientId = '';
+  this.loadAppointments();
+}
+
+
 
   // ✅ Mark appointment as visited
   markVisited(a: any) {

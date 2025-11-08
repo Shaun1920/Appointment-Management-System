@@ -8,6 +8,7 @@ import { AppointmentFormComponent } from "src/app/staff/appointment-form/appoint
 import { AppointmentTrackerComponent } from "../track/track.component";
 // import { DoctorStatusComponent } from "src/app/doctor-status/doctor-status.component";
 import { DoctorStatusComponent } from '../doctor-status/doctor-status.component';
+import { FollowupCalendarComponent } from 'src/app/staff/followup-calendar/followup-calendar.component';
 
 interface Appointment {
   id: string;
@@ -38,7 +39,8 @@ interface NewUser {
     PatientRegistrationComponent,
     AppointmentFormComponent,
     AppointmentTrackerComponent,
-    DoctorStatusComponent
+    DoctorStatusComponent,
+    FollowupCalendarComponent,
   ],
   templateUrl: './staff-dashboard.component.html',
   styleUrls: ['./staff-dashboard.component.css']
@@ -46,7 +48,7 @@ interface NewUser {
 export class StaffDashboardComponent implements OnInit {
 
   sidebarOpen = false;
-  currentView: 'appointments' | 'doctorStatus' | 'track' | 'registration' | 'profile' = 'appointments';
+  currentView: 'appointments' | 'doctorStatus' | 'track' | 'registration'| 'calendar' | 'profile' = 'appointments';
   staffName: string = '';
 
   constructor(private router: Router) {}
@@ -67,6 +69,9 @@ export class StaffDashboardComponent implements OnInit {
   viewDoctorStatus() { this.currentView = 'doctorStatus'; this.sidebarOpen = false; }
   viewTrack() { this.currentView = 'track'; this.sidebarOpen = false; }
   viewRegistration() { this.currentView = 'registration'; this.sidebarOpen = false; }
+  viewCalendar() { this.currentView = 'calendar'; this.sidebarOpen = false;
+}
+
   viewProfile() { this.currentView = 'profile'; this.sidebarOpen = false; }
 
   logout() {

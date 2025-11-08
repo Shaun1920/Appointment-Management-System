@@ -65,4 +65,14 @@ public class AppointmentService {
     public List<Map<String, Object>> getDoctorSlotStatus() {
         return repo.countAppointmentsByDoctorAndSlot();
     }
+    
+    public List<Appointment> getAppointmentsByPatientId(String patientId) {
+        return repo.findByPatientId(patientId);
+    }
+    public List<Appointment> findByPatientId(String patientId) {
+        return repo.findAll().stream()
+                .filter(a -> a.getPatientId().equalsIgnoreCase(patientId))
+                .toList();
+    }
+
 }
