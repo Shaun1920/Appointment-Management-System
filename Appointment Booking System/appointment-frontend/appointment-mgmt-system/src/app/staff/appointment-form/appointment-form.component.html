@@ -2,15 +2,7 @@
   <h2>Appointment Management</h2>
   <button class="create-btn" (click)="openModal()">+ Create Appointment</button>
 
-  <!-- ✅ Message Section -->
-  <div
-    *ngIf="message"
-    [class.success]="messageType === 'success'"
-    [class.error]="messageType === 'error'"
-    class="message-box"
-  >
-    {{ message }}
-  </div>
+  <!-- ❌ Removed old message section -->
 
   <!-- Modal -->
   <div class="modal" [class.show]="showModal">

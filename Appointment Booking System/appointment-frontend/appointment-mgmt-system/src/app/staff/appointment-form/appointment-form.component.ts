@@ -27,9 +27,6 @@ export class AppointmentFormComponent implements OnInit {
     type: 'normal'
   };
 
-  message = '';
-  messageType: 'success' | 'error' | '' = '';
-
   constructor(private svc: AppointmentService, private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -37,7 +34,7 @@ export class AppointmentFormComponent implements OnInit {
     this.fetchDoctors(); // ✅ Load doctor list
   }
 
-  // Load all appointments
+  // ✅ Load all appointments
   loadAppointments(): void {
     this.svc.getAllAppointments().subscribe({
       next: data => (this.appointments = data),
@@ -56,12 +53,13 @@ export class AppointmentFormComponent implements OnInit {
     });
   }
 
-  // Get doctor name by ID
+  // ✅ Get doctor name by ID
   getDoctorName(code: string): string {
     const doctor = this.doctors.find(d => d.doctorCode === code);
-    return doctor ? doctor.doctorCode : ''; // or use doctor.name if exists
+    return doctor ? doctor.doctorCode : ''; // or use doctor.name if available
   }
 
+  // ✅ Open modal
   openModal(): void {
     this.editingId = undefined;
     this.appointment = {
@@ -73,15 +71,14 @@ export class AppointmentFormComponent implements OnInit {
       slot: '',
       type: 'normal'
     };
-    this.message = '';
     this.showModal = true;
   }
 
+  // ✅ Edit existing appointment
   editAppointment(index: number): void {
     const a = this.appointments[index];
     this.editingId = a.id;
     this.appointment = { ...a };
-    this.message = '';
     this.showModal = true;
   }
 
@@ -89,65 +86,65 @@ export class AppointmentFormComponent implements OnInit {
     this.showModal = false;
   }
 
+  // ✅ Save or Update appointment
   saveAppointment(): void {
     if (!this.appointment.patientId || !this.appointment.doctorId) {
-      this.showMessage('Patient ID and Doctor ID are required.', 'error');
+      alert('⚠️ Please fill in both Patient ID and Doctor ID.');
       return;
     }
 
-    // ✅ Check if doctor has already 5 appointments
+    // ✅ Limit: 5 appointments per doctor
     const doctorAppointments = this.appointments.filter(
       a => a.doctorId === this.appointment.doctorId
     );
 
-    if (doctorAppointments.length >= 5 && !this.editingId) {
-      this.showMessage(
-        `All 5 slots for Doctor ${this.appointment.doctorName} are full!`,
-        'error'
-      );
+    if (doctorAppointments.length >= 2 && !this.editingId) {
+      alert(`🚫 Doctor ${this.appointment.doctorName} already has 2 appointments!`);
       return;
     }
 
     if (this.editingId) {
       this.svc.updateAppointment(this.editingId, this.appointment).subscribe({
         next: () => {
-          this.showMessage('Appointment updated successfully.', 'success');
+          alert('✅ Appointment updated successfully.');
           this.loadAppointments();
           this.closeModal();
         },
-        error: err => this.showMessage('Error updating appointment.', 'error')
+        error: err => {
+          console.error('Error updating appointment:', err);
+          alert('❌ Failed to update appointment.');
+        }
       });
     } else {
       this.svc.createAppointment(this.appointment).subscribe({
         next: () => {
-          this.showMessage('Appointment created successfully.', 'success');
+          alert('✅ Appointment created successfully.');
           this.loadAppointments();
           this.closeModal();
         },
-        error: err => this.showMessage('Error creating appointment.', 'error')
+        error: err => {
+          console.error('Error creating appointment:', err);
+          alert('❌ Failed to create appointment.');
+        }
       });
     }
   }
 
+  // ✅ Delete appointment
   deleteAppointment(index: number): void {
     const a = this.appointments[index];
     if (!a.id) return;
-    if (!confirm('Delete appointment?')) return;
+    if (!confirm('🗑️ Are you sure you want to delete this appointment?')) return;
+
     this.svc.deleteAppointment(a.id).subscribe({
       next: () => {
-        this.showMessage('Appointment deleted successfully.', 'success');
+        alert('✅ Appointment deleted successfully.');
         this.loadAppointments();
       },
-      error: err => this.showMessage('Error deleting appointment.', 'error')
+      error: err => {
+        console.error('Error deleting appointment:', err);
+        alert('❌ Failed to delete appointment.');
+      }
     });
-  }
-
-  private showMessage(msg: string, type: 'success' | 'error'): void {
-    this.message = msg;
-    this.messageType = type;
-    setTimeout(() => {
-      this.message = '';
-      this.messageType = '';
-    }, 4000);
   }
 }
